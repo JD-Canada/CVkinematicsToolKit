@@ -84,6 +84,7 @@ void MainWindow::on_loadVideo_clicked()
     // Load dummy background
     background = frame;
     backgroundClicks[4] = 0;
+    backgroundDefined = false;
 }
 
 void MainWindow::keyPressEvent(QKeyEvent * event){
@@ -276,8 +277,8 @@ void MainWindow::on_pushButton_clicked(){
          * Finish background definition
          * *********************************/
         cv::Rect ROI(cv::Point(backgroundClicks[0]*(double) frame.cols, backgroundClicks[1]*(double)frame.rows),
-                cv::Size(backgroundClicks[2]* (double) frame.cols - backgroundClicks[0]*(double)frame.cols,
-                backgroundClicks[3]*(double) frame.rows - backgroundClicks[1]*(double) frame.rows));
+                cv::Size((backgroundClicks[2]- backgroundClicks[0])*(double)frame.cols,
+                (backgroundClicks[3] - backgroundClicks[1])*(double) frame.rows));
         frame(ROI).copyTo(background(ROI));
         background_pix = QPixmap::fromImage(
                     QImage(background.data,
