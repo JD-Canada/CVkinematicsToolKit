@@ -48,6 +48,9 @@ private:
 private slots:
     void on_loadVideo_clicked();
     void on_pushButton_clicked();
+    void on_Track_B_clicked();
+    void on_pushButton_3_clicked();
+    void on_pushButton_2_clicked();
 };
 
 #endif // MAINWINDOW_H

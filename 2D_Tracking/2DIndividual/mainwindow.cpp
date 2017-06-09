@@ -300,3 +300,18 @@ void MainWindow::on_pushButton_clicked(){
         break;
     }
 }
+
+void MainWindow::on_Track_B_clicked()
+{
+    //empty slot for Track_B
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+
+}
