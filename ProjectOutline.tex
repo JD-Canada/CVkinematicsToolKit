@@ -1,0 +1,42 @@
+\documentclass{article}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{positioning}
+
+
+\tikzset{
+	state/.style={
+		rectangle,
+		rounded corners,
+		draw=black, very thick,
+		minimum height=2em,
+		inner sep=2pt,
+		text centered,
+	}
+}
+
+\begin{document}
+
+% Set itemize style
+\newcommand{\contents}[2]{
+	\begin{tabular}{l}
+		\parbox{#1}{#2}
+\end{tabular}}
+
+\begin{tikzpicture}[->,>=stealth']
+	\node[state] (MainT){ 
+		\contents{4cm}{
+			\textbf{mainwindow} \\
+			Variables:
+			\begin{itemize}
+				\item Mode
+				\item worker
+				\item filename
+		\end{itemize}
+	}
+	};
+\end{tikzpicture}
+\end{document}
