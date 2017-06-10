@@ -38,6 +38,7 @@ private:
     QThread* workerThread;
 
     void checkCurrentFrame();
+    void changeSettings();
 
     // UI & Modes
     uiMode Mode;
@@ -46,34 +47,36 @@ private:
     std::string fileName;
 
     //Statusbar
-    QLabel* statusMouseX, * statusMouseY, * statusMode;
+    QLabel* status_mouse_x, * status_mouse_y, * status_mode;
 
     // Background mode
     double backgroundClicks [5];
     // [x1, y1, x2, y2, clicks], scaled units (0,1) for mouse clicks
 
     // Settings
-    double settingsThreshold, settingsIterations;
+    double settings_threshold, settings_erode_iterations;
 
 signals:
     void shutdown();
     void requestFrame(int, MainWindow::uiDisplay);
     void setBackground(double *, int);
     void loadVideo(std::string);
+    void updateSettings(double*); // Pass UI options to worker thread
 
 private slots:
     // UI slots
     void on_loadVideo_clicked();
     void on_pushButton_clicked();
     void on_ViewMode_currentIndexChanged(int index);
-    // Detection slots
-public slots:
     void showFrame(int, QPixmap);
     void refreshBackgroundImage(QPixmap);
     void loadFrame(QPixmap,int,int);
     void on_Track_B_clicked();
     void on_pushButton_3_clicked();
     void on_pushButton_2_clicked();
+
+    void on_threshold_textChanged();
+    void on_erosionIterations_textChanged();
 };
 
 Q_DECLARE_METATYPE(std::string);

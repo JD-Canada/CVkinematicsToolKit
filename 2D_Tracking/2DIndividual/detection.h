@@ -29,7 +29,8 @@ private:
      * Private Variables
      * ***************/
     cv::Mat matFrame, matBackground, matDiff, matBw, matDisplay;
-    int frameReference, frameCurrent, frameMax, threshold, iterations, backgroundRefFrame;
+    int frameReference, frameCurrent, frameMax, backgroundRefFrame;
+    double threshold, iterations;
     cv::VideoCapture video;
     cv::Rect ROI; // Rectangle holding fish for background image creation
     bool backgroundDefined, display;
@@ -45,10 +46,11 @@ signals:
     void showFrame(int, QPixmap);
     void refreshBackgroundImage(QPixmap);
 
-public slots:
+private slots:
     void requestFrame(int, MainWindow::uiDisplay);
     void loadVideo(std::string);
     void setBackground(double *, int);
+    void updateSettings(double*); // Pass UI options to worker thread
 };
 
 Q_DECLARE_METATYPE(QPixmap);

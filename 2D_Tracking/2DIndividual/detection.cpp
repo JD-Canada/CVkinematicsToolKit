@@ -30,9 +30,19 @@ void Detection::analyseFrame(){
     // Convert to binary image
     cv::threshold(matDiff,matBw,threshold,
                           255,cv::THRESH_BINARY);
-    // Erode uses default 3x3 mat pattern
+    // Erode uses default 3x3 mat pattern wne Mat() is used
     cv::erode(matBw,matBw,cv::Mat(),
               cv::Point(-1,-1),iterations,1,1);
+}
+
+void Detection::updateSettings(double* settings){
+    // [ErosionIterations]
+    threshold = settings[1];
+    iterations = settings[0];
+
+    qDebug() << "Settings updated on worker thread";
+    qDebug() << settings;
+
 }
 
 void Detection::loadVideo(std::string filename){

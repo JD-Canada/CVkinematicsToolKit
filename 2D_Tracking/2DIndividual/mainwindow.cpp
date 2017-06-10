@@ -43,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent) :
                      worker, SLOT(requestFrame(int, MainWindow::uiDisplay)));
     connect(this,SIGNAL(setBackground(double *, int)),
             worker, SLOT(setBackground(double*, int)));
+    connect(this,SIGNAL(updateSettings(double *)),
+            worker, SLOT(updateSettings(double*)));
     // Recieving
     connect(worker,SIGNAL(showFrame(int, QPixmap)),
                      this, SLOT(showFrame(int, QPixmap)));
@@ -51,17 +53,17 @@ MainWindow::MainWindow(QWidget *parent) :
     workerThread->start();
 
 // Add statusbar widgets
-    statusMouseX = new QLabel(this);
-    statusMouseX->setText(QString("x: "));
-    statusMouseX->setObjectName(QString("mouseX"));
-    statusBar()->addPermanentWidget(statusMouseX);
-    statusMouseY = new QLabel(this);
-    statusMouseY->setText(QString("y: "));
-    statusMouseY->setObjectName(QString("mouseY"));
-    statusBar()->addPermanentWidget(statusMouseY);
-    statusMode= new QLabel(this);
-    statusMode->setText(QString("Mode: Navigate"));
-    statusBar()->addPermanentWidget(statusMode);
+    status_mouse_x = new QLabel(this);
+    status_mouse_x->setText(QString("x: "));
+    status_mouse_x->setObjectName(QString("mouseX"));
+    statusBar()->addPermanentWidget(status_mouse_x);
+    status_mouse_y = new QLabel(this);
+    status_mouse_y->setText(QString("y: "));
+    status_mouse_y->setObjectName(QString("mouseY"));
+    statusBar()->addPermanentWidget(status_mouse_y);
+    status_mode= new QLabel(this);
+    status_mode->setText(QString("Mode: Navigate"));
+    statusBar()->addPermanentWidget(status_mode);
 
     // Set up event filters for user input (capture key presses and clicks)
     ui->jumpFrame->installEventFilter(this);
@@ -192,8 +194,8 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
                 if(mouseEvent->button() == Qt::LeftButton){
                     // Show position in status bar
                     QPoint point = mouseEvent->pos();
-                    statusMouseX->setText("x: " + QString::number(point.x()));
-                    statusMouseY->setText("y: " + QString::number(point.y()));
+                    status_mouse_x->setText("x: " + QString::number(point.x()));
+                    status_mouse_y->setText("y: " + QString::number(point.y()));
                     return(true);
                 }
             }
@@ -207,8 +209,8 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
                 if(mouseEvent->button() == Qt::LeftButton){
                     // Show position in status bar
                     QPoint point = mouseEvent->pos();
-                    statusMouseX->setText("x: " + QString::number(point.x()));
-                    statusMouseY->setText("y: " + QString::number(point.y()));
+                    status_mouse_x->setText("x: " + QString::number(point.x()));
+                    status_mouse_y->setText("y: " + QString::number(point.y()));
                     // Log points in memory
                     switch(static_cast<int>(backgroundClicks[4])){
                     // Background click positions are saved as scaled x,y, coords x = (0,1), y = (0,1)
@@ -223,9 +225,8 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
                     case 1:
                         backgroundClicks[2] = double(point.x()) / double(ui->frame->size().width());
                         backgroundClicks[3] = double(point.y()) / double(ui->frame->size().height());
-                        backgroundClicks[4] = 0;
+                        backgroundClicks[4] = 2;
                         ui->frame->setCursor(Qt::ArrowCursor);
-                        emit setBackground(backgroundClicks,backgroundRefFrame);
                         statusBar()->showMessage(QString("Move until the fish is out the box..."));
                         break;
                     }
@@ -251,26 +252,25 @@ void MainWindow::on_pushButton_clicked(){
         /*********************************
          * Start background definition
          *********************************/
-        statusMode->setText(QString("Mode: Background"));
+        status_mode->setText(QString("Mode: Background"));
         Mode = Mode_BACKGROUND;
         statusBar()->showMessage(QString("Click box around fish..."));
         ui->frame->setCursor(Qt::CrossCursor);
+        backgroundDefined = false;
         break;
     case Mode_BACKGROUND:
         /*********************************
          * Finish background definition
          *********************************/
-        Mode = Mode_NAVIGATE;
-        statusMode->setText(QString("Mode: Navigate"));
-        backgroundDefined = true;
-        //Show background image
-        ui->tabWidget->setCurrentIndex(2);
-        ui->background->setPixmap(
-                    displayBackground.scaled(
-                        QSize(1,
-                              ui->previewHeight->toPlainText().toInt()),
-                        Qt::KeepAspectRatioByExpanding,
-                        Qt::FastTransformation));
+        if(backgroundClicks[4] == 2){
+            Mode = Mode_NAVIGATE;
+            status_mode->setText(QString("Mode: Navigate"));
+            backgroundDefined = true;
+            backgroundClicks[4] = 0;
+            emit setBackground(backgroundClicks,backgroundRefFrame);
+        }else{
+            statusBar()->showMessage(QString("Click box around fish before defining second image..."));
+        }
         break;
     case Mode_DIMENTIONS:
         // Do nothing
@@ -306,6 +306,16 @@ void MainWindow::refreshBackgroundImage(QPixmap pixFrame){
                 );
 }
 
+void MainWindow::changeSettings(){
+    // Get ui settings
+    settings_threshold = {ui->threshold->toPlainText().toDouble()};
+    settings_erode_iterations = {ui->erosionIterations->toPlainText().toDouble()};
+    double settings [2] = {settings_threshold, settings_erode_iterations};
+    updateSettings(settings);
+    qDebug() << "Settings changed on UI";
+    qDebug() << settings;
+}
+
 void MainWindow::on_ViewMode_currentIndexChanged(int index)
 {
     // Save display mdoe type after update (Grayscale, subtraction, binary)
@@ -325,4 +335,17 @@ void MainWindow::on_pushButton_3_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
 
+}
+
+/************************************************
+// Functions for updating anaysis params
+************************************************/
+void MainWindow::on_threshold_textChanged()
+{
+    MainWindow::changeSettings();
+}
+
+void MainWindow::on_erosionIterations_textChanged()
+{
+    MainWindow::changeSettings();
 }
