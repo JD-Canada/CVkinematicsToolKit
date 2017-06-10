@@ -70,7 +70,7 @@ private slots:
     void on_ViewMode_currentIndexChanged(int index);
     void showFrame(int, QPixmap);
     void refreshBackgroundImage(QPixmap);
-    void loadFrame(QPixmap,int,int);
+
     void on_Track_B_clicked();
     void on_pushButton_3_clicked();
     void on_pushButton_2_clicked();

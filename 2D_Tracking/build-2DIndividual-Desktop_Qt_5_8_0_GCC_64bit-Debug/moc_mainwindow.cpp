@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[18];
-    char stringdata0[287];
+    QByteArrayData data[21];
+    char stringdata0[354];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -47,8 +47,11 @@ QT_MOC_LITERAL(12, 158, 31), // "on_ViewMode_currentIndexChanged"
 QT_MOC_LITERAL(13, 190, 5), // "index"
 QT_MOC_LITERAL(14, 196, 9), // "showFrame"
 QT_MOC_LITERAL(15, 206, 22), // "refreshBackgroundImage"
-QT_MOC_LITERAL(16, 229, 24), // "on_threshold_textChanged"
-QT_MOC_LITERAL(17, 254, 32) // "on_erosionIterations_textChanged"
+QT_MOC_LITERAL(16, 229, 18), // "on_Track_B_clicked"
+QT_MOC_LITERAL(17, 248, 23), // "on_pushButton_3_clicked"
+QT_MOC_LITERAL(18, 272, 23), // "on_pushButton_2_clicked"
+QT_MOC_LITERAL(19, 296, 24), // "on_threshold_textChanged"
+QT_MOC_LITERAL(20, 321, 32) // "on_erosionIterations_textChanged"
 
     },
     "MainWindow\0shutdown\0\0requestFrame\0"
@@ -58,6 +61,8 @@ QT_MOC_LITERAL(17, 254, 32) // "on_erosionIterations_textChanged"
     "on_pushButton_clicked\0"
     "on_ViewMode_currentIndexChanged\0index\0"
     "showFrame\0refreshBackgroundImage\0"
+    "on_Track_B_clicked\0on_pushButton_3_clicked\0"
+    "on_pushButton_2_clicked\0"
     "on_threshold_textChanged\0"
     "on_erosionIterations_textChanged"
 };
@@ -69,7 +74,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      15,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -77,20 +82,23 @@ static const uint qt_meta_data_MainWindow[] = {
        5,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   74,    2, 0x06 /* Public */,
-       3,    2,   75,    2, 0x06 /* Public */,
-       5,    2,   80,    2, 0x06 /* Public */,
-       7,    1,   85,    2, 0x06 /* Public */,
-       9,    1,   88,    2, 0x06 /* Public */,
+       1,    0,   89,    2, 0x06 /* Public */,
+       3,    2,   90,    2, 0x06 /* Public */,
+       5,    2,   95,    2, 0x06 /* Public */,
+       7,    1,  100,    2, 0x06 /* Public */,
+       9,    1,  103,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      10,    0,   91,    2, 0x08 /* Private */,
-      11,    0,   92,    2, 0x08 /* Private */,
-      12,    1,   93,    2, 0x08 /* Private */,
-      14,    2,   96,    2, 0x08 /* Private */,
-      15,    1,  101,    2, 0x08 /* Private */,
-      16,    0,  104,    2, 0x08 /* Private */,
-      17,    0,  105,    2, 0x08 /* Private */,
+      10,    0,  106,    2, 0x08 /* Private */,
+      11,    0,  107,    2, 0x08 /* Private */,
+      12,    1,  108,    2, 0x08 /* Private */,
+      14,    2,  111,    2, 0x08 /* Private */,
+      15,    1,  116,    2, 0x08 /* Private */,
+      16,    0,  119,    2, 0x08 /* Private */,
+      17,    0,  120,    2, 0x08 /* Private */,
+      18,    0,  121,    2, 0x08 /* Private */,
+      19,    0,  122,    2, 0x08 /* Private */,
+      20,    0,  123,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
@@ -105,6 +113,9 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void, QMetaType::Int,   13,
     QMetaType::Void, QMetaType::Int, QMetaType::QPixmap,    2,    2,
     QMetaType::Void, QMetaType::QPixmap,    2,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -127,8 +138,11 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 7: _t->on_ViewMode_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 8: _t->showFrame((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QPixmap(*)>(_a[2]))); break;
         case 9: _t->refreshBackgroundImage((*reinterpret_cast< QPixmap(*)>(_a[1]))); break;
-        case 10: _t->on_threshold_textChanged(); break;
-        case 11: _t->on_erosionIterations_textChanged(); break;
+        case 10: _t->on_Track_B_clicked(); break;
+        case 11: _t->on_pushButton_3_clicked(); break;
+        case 12: _t->on_pushButton_2_clicked(); break;
+        case 13: _t->on_threshold_textChanged(); break;
+        case 14: _t->on_erosionIterations_textChanged(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -215,13 +229,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 15;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 15;
     }
     return _id;
 }

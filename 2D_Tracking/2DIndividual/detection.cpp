@@ -37,11 +37,11 @@ void Detection::analyseFrame(){
 
 void Detection::updateSettings(double* settings){
     // [ErosionIterations]
-    threshold = settings[1];
-    iterations = settings[0];
+    threshold = settings[0];
+    iterations = settings[1];
 
     qDebug() << "Settings updated on worker thread";
-    qDebug() << settings;
+    qDebug() << settings[0];
 
 }
 

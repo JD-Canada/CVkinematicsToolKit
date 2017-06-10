@@ -312,8 +312,7 @@ void MainWindow::changeSettings(){
     settings_erode_iterations = {ui->erosionIterations->toPlainText().toDouble()};
     double settings [2] = {settings_threshold, settings_erode_iterations};
     updateSettings(settings);
-    qDebug() << "Settings changed on UI";
-    qDebug() << settings;
+
 }
 
 void MainWindow::on_ViewMode_currentIndexChanged(int index)
