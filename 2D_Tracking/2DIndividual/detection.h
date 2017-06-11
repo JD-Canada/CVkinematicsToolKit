@@ -1,7 +1,7 @@
 #ifndef DETECTION_H
 #define DETECTION_H
 
-#include<QtCore>
+#include <QtCore>
 #include "mainwindow.h"
 #include <opencv2/opencv.hpp>
 #include <QPixmap>
@@ -29,10 +29,12 @@ private:
      * Private Variables
      * ***************/
     cv::Mat matFrame, matBackground, matDiff, matBw, matDisplay;
-    int frameReference, frameCurrent, frameMax, backgroundRefFrame;
-    double threshold, iterations;
     cv::VideoCapture video;
     cv::Rect ROI; // Rectangle holding fish for background image creation
+
+    int frameReference, frameCurrent, frameMax, backgroundRefFrame;
+    double threshold, iterations;
+
     bool backgroundDefined, display;
 
     /******************
@@ -41,6 +43,7 @@ private:
     void checkCurrentFrame();
     void loadFrame(bool,MainWindow::uiDisplay);
     void analyseFrame();
+    void playVideo();
 
 signals:
     void showFrame(int, QPixmap);

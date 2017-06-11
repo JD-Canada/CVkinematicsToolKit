@@ -125,7 +125,7 @@
                </size>
               </property>
               <property name="currentIndex">
-               <number>1</number>
+               <number>0</number>
               </property>
               <property name="tabBarAutoHide">
                <bool>false</bool>
@@ -238,7 +238,7 @@
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="pushButton_3">
+                     <widget class="QPushButton" name="playButton">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -1275,12 +1275,12 @@ p, li { white-space: pre-wrap; }
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>208</x>
-     <y>458</y>
+     <x>424</x>
+     <y>468</y>
     </hint>
     <hint type="destinationlabel">
-     <x>199</x>
-     <y>507</y>
+     <x>437</x>
+     <y>498</y>
     </hint>
    </hints>
   </connection>

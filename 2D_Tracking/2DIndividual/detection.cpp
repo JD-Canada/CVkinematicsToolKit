@@ -7,11 +7,10 @@
 
 Detection::Detection()
 {
-// Constructor
+    // Constructor
     // Initialize current frame to -1
     // Indicates that video is not yet loaded
     currentFrame = -1;
-
     backgroundDefined = false;
 }
 
@@ -47,7 +46,6 @@ void Detection::updateSettings(double* settings){
 
 void Detection::loadVideo(std::string filename){
     video.open(filename);
-
     // Load first frame and show in ui
     frameCurrent = 0;
     loadFrame(true,MainWindow::Frame_NORMAL);
@@ -61,7 +59,6 @@ void Detection::requestFrame(int frame, MainWindow::uiDisplay view){
 void Detection::loadFrame(bool display, MainWindow::uiDisplay view){
     // Skip if video not loaded
     if(frameCurrent == -1){return;}
-
 
     // Load frame from video and convert to grayscale
     video.set(cv::CAP_PROP_POS_FRAMES,frameCurrent); // move to new frame
@@ -128,4 +125,41 @@ void Detection::setBackground(double *backgroundClicks, int backgroundRefFrame){
     // Push new background to UI
     backgroundDefined = true;
     emit refreshBackgroundImage(pixBackground);
+}
+
+
+void Detection::playVideo(void) {
+
+    cv::VideoCapture capVideo;
+    cv::Mat imgFrame;
+
+    capVideo.open("/home/sylvie/Desktop/768x576.avi");
+
+    if (!capVideo.isOpened()) {
+        std::cout << "\nerror reading video file" << std::endl << std::endl;
+    }
+
+    if (capVideo.get(CV_CAP_PROP_FRAME_COUNT) < 1) {
+        std::cout << "\nerror: video file must have at least one frame";
+    }
+    capVideo.read(imgFrame);
+
+    char chCheckForEscKey = 0;
+
+    while (capVideo.isOpened() && chCheckForEscKey != 27) {
+
+        cv::imshow("imgFrame", imgFrame);
+        if ((capVideo.get(CV_CAP_PROP_POS_FRAMES) + 1) < capVideo.get(CV_CAP_PROP_FRAME_COUNT)) {
+            capVideo.read(imgFrame);
+        }
+        else {
+            std::cout << "end of video\n";
+            break;
+        }
+        chCheckForEscKey = cv::waitKey(1);
+    }
+
+    if (chCheckForEscKey != 27) {
+        cv::waitKey(0);
+    }
 }

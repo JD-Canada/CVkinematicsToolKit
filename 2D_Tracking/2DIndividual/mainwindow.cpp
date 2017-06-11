@@ -15,6 +15,15 @@
 #include <typeinfo>
 #include <QLabel>
 #include <QThread>
+#include <QtCore>
+#include <QtGui>
+#include <QMessageBox>
+
+#include<opencv2/core/core.hpp>
+#include<opencv2/highgui/highgui.hpp>
+#include<opencv2/imgproc/imgproc.hpp>
+
+#include<iostream>
 
 // c++ std libs
 #include <string>
@@ -45,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent) :
             worker, SLOT(setBackground(double*, int)));
     connect(this,SIGNAL(updateSettings(double *)),
             worker, SLOT(updateSettings(double*)));
+
     // Recieving
     connect(worker,SIGNAL(showFrame(int, QPixmap)),
                      this, SLOT(showFrame(int, QPixmap)));
@@ -84,7 +94,7 @@ void MainWindow::on_loadVideo_clicked()
 {
     // Get video location
     fileName = QFileDialog::getOpenFileName(this,
-        tr("Open Video"), "/home/", tr("Video Files (*.mp4 *.avi)")).toStdString();
+        tr("Open Video"), "/home/", tr("Video Files (*.mp4 *.avi *.h264)")).toStdString();
 
     // Load first frame
     frameCurrent= 0;
@@ -323,7 +333,7 @@ void MainWindow::on_ViewMode_currentIndexChanged(int index)
 
 void MainWindow::on_Track_B_clicked()
 {
-    //empty slot for Track_B
+
 }
 
 void MainWindow::on_pushButton_3_clicked()
@@ -336,6 +346,44 @@ void MainWindow::on_pushButton_2_clicked()
 
 }
 
+void MainWindow::on_playButton_clicked()
+{
+    std::cout << fileName << endl;
+
+        cv::VideoCapture capVideo;
+        cv::Mat imgFrame;
+
+        capVideo.open(fileName);
+
+        if (!capVideo.isOpened()) {
+            std::cout << "\nerror reading video file" << std::endl << std::endl;
+        }
+
+        if (capVideo.get(CV_CAP_PROP_FRAME_COUNT) < 1) {
+            std::cout << "\nerror: video file must have at least one frame";
+        }
+        capVideo.read(imgFrame);
+
+        char chCheckForEscKey = 0;
+
+        while (capVideo.isOpened() && chCheckForEscKey != 27) {
+
+            cv::imshow("imgFrame", imgFrame);
+            if ((capVideo.get(CV_CAP_PROP_POS_FRAMES) + 1) < capVideo.get(CV_CAP_PROP_FRAME_COUNT)) {
+                capVideo.read(imgFrame);
+            }
+            else {
+                std::cout << "end of video\n";
+                break;
+            }
+            chCheckForEscKey = cv::waitKey(1);
+        }
+
+        if (chCheckForEscKey != 27) {
+            cv::waitKey(0);
+        }
+    }
+
 /************************************************
 // Functions for updating anaysis params
 ************************************************/
@@ -346,5 +394,8 @@ void MainWindow::on_threshold_textChanged()
 
 void MainWindow::on_erosionIterations_textChanged()
 {
+
     MainWindow::changeSettings();
 }
+
+

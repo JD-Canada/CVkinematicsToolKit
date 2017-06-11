@@ -3,11 +3,11 @@
 
 #include <QMainWindow>
 #include <QPixmap>
-#include <opencv2/opencv.hpp>
 #include <QLabel>
-#include <string>
 #include <QThread>
 
+#include <opencv2/opencv.hpp>
+#include <string>
 
 namespace Ui {
 class MainWindow;
@@ -77,6 +77,7 @@ private slots:
 
     void on_threshold_textChanged();
     void on_erosionIterations_textChanged();
+    void on_playButton_clicked();
 };
 
 Q_DECLARE_METATYPE(std::string);
