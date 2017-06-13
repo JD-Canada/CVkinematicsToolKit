@@ -20,8 +20,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    enum uiMode {Mode_NAVIGATE, Mode_ANALYSIS, Mode_BACKGROUND, Mode_DIMENTIONS};
-    enum uiDisplay {Frame_NORMAL, Frame_SUBTRACTION, Frame_BINARY, Frame_SKIP};
+    // Controls what data is printed on frame image
+    enum MODE_DISPLAY {Frame_NORMAL, Frame_SUBTRACTION, Frame_BINARY, Frame_SKIP};
+    // Controls UI options
+    enum MODE_UI {Mode_NAVIGATE, Mode_ANALYSIS, Mode_BACKGROUND, Mode_DIMENTIONS};
 
     // Showframe on UI
     void loadFrame(bool load = true);
@@ -33,35 +35,36 @@ protected:
 private:
     Ui::MainWindow *ui;
     void keyPressEvent(QKeyEvent *) override;
-    int frameCurrent, frameMax, backgroundRefFrame;
-    uiDisplay displayMode;
+    int frameCurrent, frameMax, backgroundRefFrame, console_output_length;
+    MODE_DISPLAY mode_display;
     QThread* workerThread;
 
     void checkCurrentFrame();
     void changeSettings();
 
     // UI & Modes
-    uiMode Mode;
+    MODE_UI mode_ui;
     QPixmap displayFrame, displayBackground;
     bool backgroundDefined, dimentionsDefined;
     std::string fileName;
+    QString console_output;
 
     //Statusbar
     QLabel* status_mouse_x, * status_mouse_y, * status_mode;
 
     // Background mode
-    double backgroundClicks [5];
-    // [x1, y1, x2, y2, clicks], scaled units (0,1) for mouse clicks
+    double background_definition [5];
 
     // Settings
     double settings_threshold, settings_erode_iterations;
 
 signals:
-    void shutdown();
-    void requestFrame(int, MainWindow::uiDisplay);
-    void setBackground(double *, int);
-    void loadVideo(std::string);
-    void updateSettings(double*); // Pass UI options to worker thread
+    void frameRequest(int, MainWindow::MODE_DISPLAY);
+    void backgroundSet(double *, int);
+    void videoLoad(std::string);
+    void videoPlay(bool); // bool true = analysis, false = playback
+    void videoStop(); // stop video playback/analysis
+    void settingsUpdate(double*); // Pass UI options to worker thread
 
 private slots:
     // UI slots
@@ -69,18 +72,18 @@ private slots:
     void on_pushButton_clicked();
     void on_ViewMode_currentIndexChanged(int index);
     void showFrame(int, QPixmap);
-    void refreshBackgroundImage(QPixmap);
+    void backgroundRefresh(QPixmap);
 
     void on_Track_B_clicked();
-    void on_pushButton_3_clicked();
-    void on_pushButton_2_clicked();
 
     void on_threshold_textChanged();
     void on_erosionIterations_textChanged();
     void on_playButton_clicked();
+    void consoleOutput(QString);
 };
 
 Q_DECLARE_METATYPE(std::string);
-Q_DECLARE_METATYPE(MainWindow::uiDisplay); // This must be after class declaration
+Q_DECLARE_METATYPE(MainWindow::MODE_DISPLAY); // This must be after class declaration
+Q_DECLARE_METATYPE(QString);
 
 #endif // MAINWINDOW_H

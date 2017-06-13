@@ -49,8 +49,7 @@ public:
     QHBoxLayout *horizontalLayout_4;
     QVBoxLayout *verticalLayout;
     QPushButton *loadVideo;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton_3;
+    QPushButton *playButton;
     QPushButton *Track_B;
     QSpacerItem *verticalSpacer_2;
     QGroupBox *groupBox_2;
@@ -88,7 +87,7 @@ public:
     QCheckBox *checkBox_3;
     QSpacerItem *horizontalSpacer;
     QHBoxLayout *horizontalLayout_3;
-    QTextEdit *textEdit;
+    QTextEdit *messageOutput;
     QWidget *data;
     QWidget *tab3;
     QGridLayout *gridLayout_3;
@@ -128,12 +127,12 @@ public:
         verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
         frame = new QLabel(tracking);
         frame->setObjectName(QStringLiteral("frame"));
-        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Ignored);
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Minimum);
         sizePolicy1.setHorizontalStretch(1);
         sizePolicy1.setVerticalStretch(10);
         sizePolicy1.setHeightForWidth(frame->sizePolicy().hasHeightForWidth());
         frame->setSizePolicy(sizePolicy1);
-        frame->setMinimumSize(QSize(0, 200));
+        frame->setMinimumSize(QSize(0, 0));
         frame->setMaximumSize(QSize(3000, 2000));
         QFont font1;
         font1.setPointSize(11);
@@ -142,7 +141,7 @@ public:
         frame->setFocusPolicy(Qt::ClickFocus);
         frame->setLayoutDirection(Qt::LeftToRight);
         frame->setFrameShadow(QFrame::Plain);
-        frame->setScaledContents(false);
+        frame->setScaledContents(true);
         frame->setAlignment(Qt::AlignCenter);
         frame->setMargin(0);
         frame->setIndent(0);
@@ -197,25 +196,15 @@ public:
 
         verticalLayout->addWidget(loadVideo);
 
-        pushButton_2 = new QPushButton(tab);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        sizePolicy4.setHeightForWidth(pushButton_2->sizePolicy().hasHeightForWidth());
-        pushButton_2->setSizePolicy(sizePolicy4);
-        pushButton_2->setMinimumSize(QSize(50, 24));
-        pushButton_2->setMaximumSize(QSize(80, 24));
-        pushButton_2->setBaseSize(QSize(0, 24));
+        playButton = new QPushButton(tab);
+        playButton->setObjectName(QStringLiteral("playButton"));
+        sizePolicy4.setHeightForWidth(playButton->sizePolicy().hasHeightForWidth());
+        playButton->setSizePolicy(sizePolicy4);
+        playButton->setMinimumSize(QSize(50, 24));
+        playButton->setMaximumSize(QSize(80, 24));
+        playButton->setBaseSize(QSize(0, 24));
 
-        verticalLayout->addWidget(pushButton_2);
-
-        pushButton_3 = new QPushButton(tab);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
-        sizePolicy4.setHeightForWidth(pushButton_3->sizePolicy().hasHeightForWidth());
-        pushButton_3->setSizePolicy(sizePolicy4);
-        pushButton_3->setMinimumSize(QSize(50, 24));
-        pushButton_3->setMaximumSize(QSize(80, 24));
-        pushButton_3->setBaseSize(QSize(0, 24));
-
-        verticalLayout->addWidget(pushButton_3);
+        verticalLayout->addWidget(playButton);
 
         Track_B = new QPushButton(tab);
         Track_B->setObjectName(QStringLiteral("Track_B"));
@@ -227,7 +216,7 @@ public:
 
         verticalLayout->addWidget(Track_B);
 
-        verticalSpacer_2 = new QSpacerItem(20, 200, QSizePolicy::Minimum, QSizePolicy::Ignored);
+        verticalSpacer_2 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Ignored);
 
         verticalLayout->addItem(verticalSpacer_2);
 
@@ -578,18 +567,22 @@ public:
 
         horizontalLayout_5->addWidget(tabWidget_2);
 
-        textEdit = new QTextEdit(tracking);
-        textEdit->setObjectName(QStringLiteral("textEdit"));
+        messageOutput = new QTextEdit(tracking);
+        messageOutput->setObjectName(QStringLiteral("messageOutput"));
         QSizePolicy sizePolicy11(QSizePolicy::Preferred, QSizePolicy::Fixed);
         sizePolicy11.setHorizontalStretch(1);
         sizePolicy11.setVerticalStretch(0);
-        sizePolicy11.setHeightForWidth(textEdit->sizePolicy().hasHeightForWidth());
-        textEdit->setSizePolicy(sizePolicy11);
-        textEdit->setMinimumSize(QSize(20, 180));
-        textEdit->setMaximumSize(QSize(2000, 180));
-        textEdit->setBaseSize(QSize(180, 180));
+        sizePolicy11.setHeightForWidth(messageOutput->sizePolicy().hasHeightForWidth());
+        messageOutput->setSizePolicy(sizePolicy11);
+        messageOutput->setMinimumSize(QSize(20, 180));
+        messageOutput->setMaximumSize(QSize(2000, 180));
+        messageOutput->setBaseSize(QSize(180, 180));
+        messageOutput->setUndoRedoEnabled(false);
+        messageOutput->setLineWrapMode(QTextEdit::NoWrap);
+        messageOutput->setReadOnly(true);
+        messageOutput->setTextInteractionFlags(Qt::NoTextInteraction);
 
-        horizontalLayout_5->addWidget(textEdit);
+        horizontalLayout_5->addWidget(messageOutput);
 
         horizontalLayout_5->setStretch(1, 1);
 
@@ -627,7 +620,7 @@ public:
         QObject::connect(radioButton_2, SIGNAL(toggled(bool)), pushButton, SLOT(setDisabled(bool)));
 
         tabWidget->setCurrentIndex(0);
-        tabWidget_2->setCurrentIndex(1);
+        tabWidget_2->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -638,8 +631,7 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
         frame->setText(QString());
         loadVideo->setText(QApplication::translate("MainWindow", "Load Video", Q_NULLPTR));
-        pushButton_2->setText(QApplication::translate("MainWindow", "Stop", Q_NULLPTR));
-        pushButton_3->setText(QApplication::translate("MainWindow", "Play", Q_NULLPTR));
+        playButton->setText(QApplication::translate("MainWindow", "Play", Q_NULLPTR));
         Track_B->setText(QApplication::translate("MainWindow", "Track", Q_NULLPTR));
         groupBox_2->setTitle(QApplication::translate("MainWindow", "Display:", Q_NULLPTR));
         label->setText(QApplication::translate("MainWindow", "Width (cm)", Q_NULLPTR));

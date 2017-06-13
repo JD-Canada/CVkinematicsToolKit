@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Detection_t {
-    QByteArrayData data[11];
-    char stringdata0[138];
+    QByteArrayData data[13];
+    char stringdata0[160];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,20 +34,23 @@ static const qt_meta_stringdata_Detection_t qt_meta_stringdata_Detection = {
 QT_MOC_LITERAL(0, 0, 9), // "Detection"
 QT_MOC_LITERAL(1, 10, 9), // "showFrame"
 QT_MOC_LITERAL(2, 20, 0), // ""
-QT_MOC_LITERAL(3, 21, 22), // "refreshBackgroundImage"
-QT_MOC_LITERAL(4, 44, 12), // "requestFrame"
-QT_MOC_LITERAL(5, 57, 21), // "MainWindow::uiDisplay"
-QT_MOC_LITERAL(6, 79, 9), // "loadVideo"
-QT_MOC_LITERAL(7, 89, 11), // "std::string"
-QT_MOC_LITERAL(8, 101, 13), // "setBackground"
-QT_MOC_LITERAL(9, 115, 7), // "double*"
-QT_MOC_LITERAL(10, 123, 14) // "updateSettings"
+QT_MOC_LITERAL(3, 21, 17), // "backgroundRefresh"
+QT_MOC_LITERAL(4, 39, 13), // "consoleOutput"
+QT_MOC_LITERAL(5, 53, 12), // "frameRequest"
+QT_MOC_LITERAL(6, 66, 24), // "MainWindow::MODE_DISPLAY"
+QT_MOC_LITERAL(7, 91, 9), // "videoLoad"
+QT_MOC_LITERAL(8, 101, 11), // "std::string"
+QT_MOC_LITERAL(9, 113, 9), // "videoPlay"
+QT_MOC_LITERAL(10, 123, 13), // "backgroundSet"
+QT_MOC_LITERAL(11, 137, 7), // "double*"
+QT_MOC_LITERAL(12, 145, 14) // "settingsUpdate"
 
     },
-    "Detection\0showFrame\0\0refreshBackgroundImage\0"
-    "requestFrame\0MainWindow::uiDisplay\0"
-    "loadVideo\0std::string\0setBackground\0"
-    "double*\0updateSettings"
+    "Detection\0showFrame\0\0backgroundRefresh\0"
+    "consoleOutput\0frameRequest\0"
+    "MainWindow::MODE_DISPLAY\0videoLoad\0"
+    "std::string\0videoPlay\0backgroundSet\0"
+    "double*\0settingsUpdate"
 };
 #undef QT_MOC_LITERAL
 
@@ -57,32 +60,36 @@ static const uint qt_meta_data_Detection[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       2,       // signalCount
+       3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    2,   44,    2, 0x06 /* Public */,
-       3,    1,   49,    2, 0x06 /* Public */,
+       1,    2,   54,    2, 0x06 /* Public */,
+       3,    1,   59,    2, 0x06 /* Public */,
+       4,    1,   62,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    2,   52,    2, 0x08 /* Private */,
-       6,    1,   57,    2, 0x08 /* Private */,
-       8,    2,   60,    2, 0x08 /* Private */,
-      10,    1,   65,    2, 0x08 /* Private */,
+       5,    2,   65,    2, 0x08 /* Private */,
+       7,    1,   70,    2, 0x08 /* Private */,
+       9,    1,   73,    2, 0x08 /* Private */,
+      10,    2,   76,    2, 0x08 /* Private */,
+      12,    1,   81,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int, QMetaType::QPixmap,    2,    2,
     QMetaType::Void, QMetaType::QPixmap,    2,
+    QMetaType::Void, QMetaType::QString,    2,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::Int, 0x80000000 | 5,    2,    2,
-    QMetaType::Void, 0x80000000 | 7,    2,
-    QMetaType::Void, 0x80000000 | 9, QMetaType::Int,    2,    2,
-    QMetaType::Void, 0x80000000 | 9,    2,
+    QMetaType::Void, QMetaType::Int, 0x80000000 | 6,    2,    2,
+    QMetaType::Void, 0x80000000 | 8,    2,
+    QMetaType::Void, QMetaType::Bool,    2,
+    QMetaType::Void, 0x80000000 | 11, QMetaType::Int,    2,    2,
+    QMetaType::Void, 0x80000000 | 11,    2,
 
        0        // eod
 };
@@ -94,24 +101,26 @@ void Detection::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->showFrame((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QPixmap(*)>(_a[2]))); break;
-        case 1: _t->refreshBackgroundImage((*reinterpret_cast< QPixmap(*)>(_a[1]))); break;
-        case 2: _t->requestFrame((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< MainWindow::uiDisplay(*)>(_a[2]))); break;
-        case 3: _t->loadVideo((*reinterpret_cast< std::string(*)>(_a[1]))); break;
-        case 4: _t->setBackground((*reinterpret_cast< double*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 5: _t->updateSettings((*reinterpret_cast< double*(*)>(_a[1]))); break;
+        case 1: _t->backgroundRefresh((*reinterpret_cast< QPixmap(*)>(_a[1]))); break;
+        case 2: _t->consoleOutput((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 3: _t->frameRequest((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< MainWindow::MODE_DISPLAY(*)>(_a[2]))); break;
+        case 4: _t->videoLoad((*reinterpret_cast< std::string(*)>(_a[1]))); break;
+        case 5: _t->videoPlay((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 6: _t->backgroundSet((*reinterpret_cast< double*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 7: _t->settingsUpdate((*reinterpret_cast< double*(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 2:
+        case 3:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 1:
-                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< MainWindow::uiDisplay >(); break;
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< MainWindow::MODE_DISPLAY >(); break;
             }
             break;
-        case 3:
+        case 4:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -131,8 +140,15 @@ void Detection::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         }
         {
             typedef void (Detection::*_t)(QPixmap );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Detection::refreshBackgroundImage)) {
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Detection::backgroundRefresh)) {
                 *result = 1;
+                return;
+            }
+        }
+        {
+            typedef void (Detection::*_t)(QString );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Detection::consoleOutput)) {
+                *result = 2;
                 return;
             }
         }
@@ -164,13 +180,13 @@ int Detection::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 8;
     }
     return _id;
 }
@@ -183,10 +199,17 @@ void Detection::showFrame(int _t1, QPixmap _t2)
 }
 
 // SIGNAL 1
-void Detection::refreshBackgroundImage(QPixmap _t1)
+void Detection::backgroundRefresh(QPixmap _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);
+}
+
+// SIGNAL 2
+void Detection::consoleOutput(QString _t1)
+{
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 2, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

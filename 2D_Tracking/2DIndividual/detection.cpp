@@ -4,6 +4,7 @@
 #include <QPixmap>
 #include <QLabel>
 #include <string>
+#include <QEventLoop>
 
 Detection::Detection()
 {
@@ -31,37 +32,40 @@ void Detection::analyseFrame(){
                           255,cv::THRESH_BINARY);
     // Erode uses default 3x3 mat pattern wne Mat() is used
     cv::erode(matBw,matBw,cv::Mat(),
-              cv::Point(-1,-1),iterations,1,1);
+              cv::Point(-1,-1),int(iterations),1,1);
 }
 
-void Detection::updateSettings(double* settings){
+void Detection::settingsUpdate(double* settings){
     // [ErosionIterations]
     threshold = settings[0];
     iterations = settings[1];
-
-    qDebug() << "Settings updated on worker thread";
-    qDebug() << settings[0];
-
 }
 
-void Detection::loadVideo(std::string filename){
+void Detection::videoLoad(std::string filename){
     video.open(filename);
+    if (!video.isOpened()) {
+        emit consoleOutput(QString("Error reading video file"));
+    }
+
+    if (video.get(CV_CAP_PROP_FRAME_COUNT) < 1) {
+        emit consoleOutput(QString("error: video file must have at least one frame"));
+    }
     // Load first frame and show in ui
-    frameCurrent = 0;
+    currentFrame = 0;
     loadFrame(true,MainWindow::Frame_NORMAL);
 }
 
-void Detection::requestFrame(int frame, MainWindow::uiDisplay view){
-    frameCurrent = frame;
+void Detection::frameRequest(int frame, MainWindow::MODE_DISPLAY view){
+    currentFrame = frame;
     loadFrame(true, view);
 }
 
-void Detection::loadFrame(bool display, MainWindow::uiDisplay view){
+void Detection::loadFrame(bool display, MainWindow::MODE_DISPLAY view){
     // Skip if video not loaded
-    if(frameCurrent == -1){return;}
+    if(currentFrame == -1){return;}
 
     // Load frame from video and convert to grayscale
-    video.set(cv::CAP_PROP_POS_FRAMES,frameCurrent); // move to new frame
+    video.set(cv::CAP_PROP_POS_FRAMES,currentFrame); // move to new frame
     video.read(matFrame); // load frame
     cv::cvtColor(matFrame,matFrame,CV_RGB2GRAY); // convert to greyscale
 
@@ -87,7 +91,7 @@ void Detection::loadFrame(bool display, MainWindow::uiDisplay view){
                            int(matDisplay.step),
                            QImage::Format_Grayscale8));
         // Push the loaded frame to the UI to display
-        emit showFrame(frameCurrent, pixFrame);
+        emit showFrame(currentFrame, pixFrame);
     }
 }
 
@@ -96,16 +100,16 @@ void Detection::loadFrame(bool display, MainWindow::uiDisplay view){
  * Slots
  * **********************************
  * ********************************/
-void Detection::setBackground(double *backgroundClicks, int backgroundRefFrame){
+void Detection::backgroundSet(double *backgroundClicks, int backgroundRefFrame){
     // Move to first background frame and save as background
-    frameReference = frameCurrent;
-    frameCurrent = backgroundRefFrame;
+    frameReference = currentFrame;
+    currentFrame = backgroundRefFrame;
     display = false;
     loadFrame(display, MainWindow::Frame_SKIP);
     matBackground = matFrame.clone();
 // Remove fish from reference image
     // Load current frame again
-    frameCurrent = frameReference;
+    currentFrame = frameReference;
     loadFrame(display, MainWindow::Frame_SKIP);
     // Draw a box around fish using mouse clicks from ui
     cv::Rect ROI(
@@ -124,42 +128,34 @@ void Detection::setBackground(double *backgroundClicks, int backgroundRefFrame){
                        QImage::Format_Grayscale8));
     // Push new background to UI
     backgroundDefined = true;
-    emit refreshBackgroundImage(pixBackground);
+    emit backgroundRefresh(pixBackground);
 }
 
+void Detection::videoPlay(bool analyze) {
 
-void Detection::playVideo(void) {
-
-    cv::VideoCapture capVideo;
-    cv::Mat imgFrame;
-
-    capVideo.open("/home/sylvie/Desktop/768x576.avi");
-
-    if (!capVideo.isOpened()) {
-        std::cout << "\nerror reading video file" << std::endl << std::endl;
+    if(currentFrame == -1){
+        // Exit if no video loaded
+        return;
     }
 
-    if (capVideo.get(CV_CAP_PROP_FRAME_COUNT) < 1) {
-        std::cout << "\nerror: video file must have at least one frame";
+    if(analyze == true){
+        mode_playback = playback_ANALYZE;
+    }else{
+        mode_playback = playback_PLAY;
     }
-    capVideo.read(imgFrame);
 
-    char chCheckForEscKey = 0;
+    int frameMax = int(video.get(CV_CAP_PROP_FRAME_COUNT));
 
-    while (capVideo.isOpened() && chCheckForEscKey != 27) {
-
-        cv::imshow("imgFrame", imgFrame);
-        if ((capVideo.get(CV_CAP_PROP_POS_FRAMES) + 1) < capVideo.get(CV_CAP_PROP_FRAME_COUNT)) {
-            capVideo.read(imgFrame);
-        }
-        else {
-            std::cout << "end of video\n";
+    while (mode_playback != playback_STOP) {
+        if (currentFrame + 1  < frameMax) {
+            loadFrame(true,MainWindow::Frame_NORMAL);
+            currentFrame = currentFrame + 1;
+        } else {
+            emit consoleOutput(QString("end of video"));
             break;
         }
-        chCheckForEscKey = cv::waitKey(1);
-    }
+        // Process UI signals
+        qApp->processEvents(QEventLoop::AllEvents);
 
-    if (chCheckForEscKey != 27) {
-        cv::waitKey(0);
     }
 }

@@ -1232,14 +1232,71 @@ mainwindow.o: ../2DIndividual/mainwindow.cpp ../2DIndividual/mainwindow.h \
 		../../../../Qt/5.8/gcc_64/include/QtWidgets/qframe.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/QThread \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qthread.h \
-		ui_mainwindow.h \
+		../2DIndividual/ui_mainwindow.h \
+		../../../../Qt/5.8/gcc_64/include/QtCore/QVariant \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QAction \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qaction.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qactiongroup.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QApplication \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qapplication.h \
+		../../../../Qt/5.8/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../../Qt/5.8/gcc_64/include/QtCore/qeventloop.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qguiapplication.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qinputmethod.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QButtonGroup \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qbuttongroup.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QCheckBox \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qcheckbox.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QComboBox \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qcombobox.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qvalidator.h \
+		../../../../Qt/5.8/gcc_64/include/QtCore/qregularexpression.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qslider.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qstyle.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../../Qt/5.8/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QGridLayout \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qlayout.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QGroupBox \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qgroupbox.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QHBoxLayout \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QHeaderView \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qheaderview.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qabstractitemview.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../../Qt/5.8/gcc_64/include/QtCore/qitemselectionmodel.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QPushButton \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QRadioButton \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qradiobutton.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QSpacerItem \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QStatusBar \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qstatusbar.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QTabWidget \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QTextEdit \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qtextedit.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qtextdocument.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qtextoption.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qtextcursor.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qtextformat.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qpen.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QVBoxLayout \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QWidget \
 		../2DIndividual/detection.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/QtCore \
 		../../../../Qt/5.8/gcc_64/include/QtCore/QtCoreDepends \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qabstractanimation.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qabstracteventdispatcher.h \
-		../../../../Qt/5.8/gcc_64/include/QtCore/qeventloop.h \
-		../../../../Qt/5.8/gcc_64/include/QtCore/qabstractitemmodel.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qabstractproxymodel.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qabstractstate.h \
@@ -1255,7 +1312,6 @@ mainwindow.o: ../2DIndividual/mainwindow.cpp ../2DIndividual/mainwindow.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qcollator.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qcommandlineoption.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qcommandlineparser.h \
-		../../../../Qt/5.8/gcc_64/include/QtCore/qcoreapplication.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qcryptographichash.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qdatetime.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qdeadlinetimer.h \
@@ -1282,7 +1338,6 @@ mainwindow.o: ../2DIndividual/mainwindow.cpp ../2DIndividual/mainwindow.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qhistorystate.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qidentityproxymodel.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qisenum.h \
-		../../../../Qt/5.8/gcc_64/include/QtCore/qitemselectionmodel.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qjsonarray.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qjsonvalue.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qjsondocument.h \
@@ -1310,7 +1365,6 @@ mainwindow.o: ../2DIndividual/mainwindow.cpp ../2DIndividual/mainwindow.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qvariantanimation.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qqueue.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qreadwritelock.h \
-		../../../../Qt/5.8/gcc_64/include/QtCore/qregularexpression.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qresource.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qsavefile.h \
 		../../../../Qt/5.8/gcc_64/include/QtCore/qscopedvaluerollback.h \
@@ -1350,7 +1404,99 @@ mainwindow.o: ../2DIndividual/mainwindow.cpp ../2DIndividual/mainwindow.h \
 		../../../../Qt/5.8/gcc_64/include/QtWidgets/qdialog.h \
 		../../../../Qt/5.8/gcc_64/include/QtGui/QKeyEvent \
 		../../../../Qt/5.8/gcc_64/include/QtGui/QMouseEvent \
-		../../../../Qt/5.8/gcc_64/include/QtGui/QImage
+		../../../../Qt/5.8/gcc_64/include/QtGui/QImage \
+		../../../../Qt/5.8/gcc_64/include/QtGui/QtGui \
+		../../../../Qt/5.8/gcc_64/include/QtGui/QtGuiDepends \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qtextlayout.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qglyphrun.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qrawfont.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qfontdatabase.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qaccessible.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qaccessiblebridge.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qaccessibleobject.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qaccessibleplugin.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qbackingstore.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qwindow.h \
+		../../../../Qt/5.8/gcc_64/include/QtCore/QEvent \
+		../../../../Qt/5.8/gcc_64/include/QtCore/QMargins \
+		../../../../Qt/5.8/gcc_64/include/QtCore/QRect \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qsurface.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qsurfaceformat.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qbitmap.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qclipboard.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qdesktopservices.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qdrag.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qgenericmatrix.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qgenericplugin.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qgenericpluginfactory.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qiconengine.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qiconengineplugin.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qimageiohandler.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qimagereader.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qimagewriter.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qmatrix4x4.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qvector3d.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qvector4d.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qquaternion.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qmovie.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qoffscreensurface.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopengl.h \
+		../../../../Qt/5.8/gcc_64/include/QtCore/qt_windows.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopengles2ext.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopenglext.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopenglbuffer.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopenglcontext.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/QSurfaceFormat \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopenglversionfunctions.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopengldebug.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopenglextrafunctions.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopenglfunctions.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopenglframebufferobject.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopenglpaintdevice.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopenglpixeltransferoptions.h \
+		../../../../Qt/5.8/gcc_64/include/QtCore/QSharedDataPointer \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopenglshaderprogram.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopengltexture.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopengltextureblitter.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/QMatrix3x3 \
+		../../../../Qt/5.8/gcc_64/include/QtGui/QMatrix4x4 \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopengltimerquery.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qopenglwindow.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/QPaintDeviceWindow \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qpaintdevicewindow.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/QWindow \
+		../../../../Qt/5.8/gcc_64/include/QtGui/QPaintDevice \
+		../../../../Qt/5.8/gcc_64/include/QtGui/QOpenGLContext \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qpagedpaintdevice.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qpagelayout.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qpagesize.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qpaintengine.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qpainter.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qpdfwriter.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qpicture.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qpictureformatplugin.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qpixmapcache.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qrasterwindow.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qscreen.h \
+		../../../../Qt/5.8/gcc_64/include/QtCore/QList \
+		../../../../Qt/5.8/gcc_64/include/QtCore/QSize \
+		../../../../Qt/5.8/gcc_64/include/QtCore/QSizeF \
+		../../../../Qt/5.8/gcc_64/include/QtGui/QTransform \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qsessionmanager.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qstandarditemmodel.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qstatictext.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qstylehints.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qsyntaxhighlighter.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qtextobject.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qtextdocumentfragment.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qtextdocumentwriter.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qtextlist.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qtexttable.h \
+		../../../../Qt/5.8/gcc_64/include/QtGui/qtguiversion.h \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/QMessageBox \
+		../../../../Qt/5.8/gcc_64/include/QtWidgets/qmessagebox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../2DIndividual/mainwindow.cpp
 
 detection.o: ../2DIndividual/detection.cpp ../2DIndividual/detection.h \
