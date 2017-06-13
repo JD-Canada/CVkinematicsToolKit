@@ -19,12 +19,6 @@
 #include <QtGui>
 #include <QMessageBox>
 
-#include<opencv2/core/core.hpp>
-#include<opencv2/highgui/highgui.hpp>
-#include<opencv2/imgproc/imgproc.hpp>
-
-#include<iostream>
-
 // c++ std libs
 #include <string>
 
@@ -46,20 +40,29 @@ MainWindow::MainWindow(QWidget *parent) :
 
 // Link singal/slots between threads
     // Sending
-    connect(this, SIGNAL(loadVideo(std::string)),
-                     worker, SLOT(loadVideo(std::string)));
-    connect(this,SIGNAL(requestFrame(int, MainWindow::uiDisplay)),
-                     worker, SLOT(requestFrame(int, MainWindow::uiDisplay)));
-    connect(this,SIGNAL(setBackground(double *, int)),
-            worker, SLOT(setBackground(double*, int)));
-    connect(this,SIGNAL(updateSettings(double *)),
-            worker, SLOT(updateSettings(double*)));
+    connect(this, SIGNAL(videoLoad(std::string)),
+                     worker, SLOT(videoLoad(std::string)));
+    connect(this,SIGNAL(frameRequest(int, MainWindow::MODE_DISPLAY)),
+                     worker, SLOT(frameRequest(int, MainWindow::MODE_DISPLAY)));
+    connect(this,SIGNAL(backgroundSet(double *, int)),
+            worker, SLOT(backgroundSet(double *, int)));
+    connect(this,SIGNAL(settingsUpdate(double *)),
+            worker, SLOT(settingsUpdate(double *)));
+    connect(this,SIGNAL(videoPlay(bool)),
+            worker, SLOT(videoPlay(bool)));
+    connect(this,SIGNAL(videoStop()),
+            worker, SLOT(videoStop()));
 
     // Recieving
     connect(worker,SIGNAL(showFrame(int, QPixmap)),
                      this, SLOT(showFrame(int, QPixmap)));
-    connect(worker,SIGNAL(refreshBackgroundImage(QPixmap)),
-                     this, SLOT(refreshBackgroundImage(QPixmap)));
+    connect(worker,SIGNAL(backgroundRefresh(QPixmap)),
+                     this, SLOT(backgroundRefresh(QPixmap)));
+    connect(worker,SIGNAL(consoleOutput(QString)),
+                     this, SLOT(consoleOutput(QString)));
+
+    // Name and start thread
+    workerThread->setObjectName(QString("CVKinematics"));
     workerThread->start();
 
 // Add statusbar widgets
@@ -80,7 +83,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->frame->installEventFilter(this);
 
     // Set mode
-    Mode = Mode_NAVIGATE;
+    mode_ui = Mode_NAVIGATE;
+    status_mode->setText(QString("Mode: NAVIGATE"));
+
+    //Initialize console output
+    console_output_length = 1000;
+    console_output = QString("");  // initalize empty console
+    console_output.reserve(console_output_length);
+
+    // First console messages
+    consoleOutput(QString("Fish tracker alpha"));
+    consoleOutput(QString("Load a video to start tracking..."));
 }
 
 // Deconstructor
@@ -100,7 +113,7 @@ void MainWindow::on_loadVideo_clicked()
     frameCurrent= 0;
 
     // Load dummy background
-    backgroundClicks[4] = 0;
+    background_definition[4] = 0;
     backgroundDefined = false;
 
     // Open video object and pass to worker thread
@@ -108,61 +121,7 @@ void MainWindow::on_loadVideo_clicked()
     video = cv::VideoCapture(fileName);
     frameMax = int(video.get(cv::CAP_PROP_FRAME_COUNT));
     video.release();
-    emit loadVideo(fileName);
-}
-
-void MainWindow::keyPressEvent(QKeyEvent * event){
-    if (frameCurrent == -1){
-        ui->statusBar->showMessage(QString("No video loaded!"));
-        return;
-    }
-    /**********************************************************
-     * Keyboard controls are different depending on UI mode
-     **********************************************************/
-    switch(Mode){
-    case Mode_NAVIGATE:
-        switch(event->key()){
-        case Qt::Key_Z: frameCurrent  = frameCurrent - 1;break;
-        case Qt::Key_X: frameCurrent  = frameCurrent + 1;break;
-        case Qt::Key_A:  frameCurrent  = frameCurrent - 10;break;
-        case Qt::Key_S:  frameCurrent  = frameCurrent + 10;break;
-        case Qt::Key_Q:  frameCurrent  = frameCurrent - 100;break;
-        case Qt::Key_W:  frameCurrent  = frameCurrent + 100;break;
-        case Qt::Key_1:  frameCurrent  = frameCurrent - 1000;break;
-        case Qt::Key_2:  frameCurrent  = frameCurrent + 1000;break;
-        }
-        checkCurrentFrame();
-        break;
-    case Mode_BACKGROUND:
-        switch(event->key()){
-        case Qt::Key_Z: frameCurrent  = frameCurrent - 1;break;
-        case Qt::Key_X: frameCurrent  = frameCurrent + 1;break;
-        case Qt::Key_A:  frameCurrent  = frameCurrent - 10;break;
-        case Qt::Key_S:  frameCurrent  = frameCurrent + 10;break;
-        case Qt::Key_Q:  frameCurrent  = frameCurrent - 100;break;
-        case Qt::Key_W:  frameCurrent  = frameCurrent + 100;break;
-        case Qt::Key_1:  frameCurrent  = frameCurrent - 1000;break;
-        case Qt::Key_2:  frameCurrent  = frameCurrent + 1000;break;
-        }
-        checkCurrentFrame();
-        break;
-    case Mode_DIMENTIONS:
-        switch(event->key()){
-        case Qt::Key_Z: frameCurrent  = frameCurrent - 1;break;
-        case Qt::Key_X: frameCurrent  = frameCurrent + 1;break;
-        case Qt::Key_A:  frameCurrent  = frameCurrent - 10;break;
-        case Qt::Key_S:  frameCurrent  = frameCurrent + 10;break;
-        case Qt::Key_Q:  frameCurrent  = frameCurrent - 100;break;
-        case Qt::Key_W:  frameCurrent  = frameCurrent + 100;break;
-        case Qt::Key_1:  frameCurrent  = frameCurrent - 1000;break;
-        case Qt::Key_2:  frameCurrent  = frameCurrent + 1000;break;
-        }
-        checkCurrentFrame();
-        break;
-    case Mode_ANALYSIS:
-        // No keybaord commands in analysis mode
-        break;
-    }
+    emit videoLoad(fileName);
 }
 
 void MainWindow::checkCurrentFrame(){
@@ -173,11 +132,65 @@ void MainWindow::checkCurrentFrame(){
         frameCurrent = 0;
     }
     // Add new frame number to statusbar
-    emit requestFrame(frameCurrent, displayMode);
+    emit frameRequest(frameCurrent, mode_display);
 }
 
+
+
+void MainWindow::showFrame(int frame, QPixmap pixFrame){
+    // Update current frame
+    frameCurrent = frame;
+    // Update statusbar
+    ui->statusBar->showMessage(
+                QString("Frame: " +
+                        QString::number(frameCurrent) +
+                        '/' +
+                        QString::number(frameMax)));
+    // Scale and push pixmap to UI
+    ui->frame->setPixmap(
+                pixFrame.scaled(QSize(1,ui->previewHeight->toPlainText().toInt()),
+                                 Qt::KeepAspectRatioByExpanding,Qt::FastTransformation)
+                );
+    qDebug() << "Frame updated";
+}
+
+void MainWindow::backgroundRefresh(QPixmap pixFrame){
+    // Load new background image
+    ui->background->setPixmap(
+                pixFrame.scaled(QSize(1,ui->previewHeight->toPlainText().toInt()),
+                                 Qt::KeepAspectRatioByExpanding,Qt::FastTransformation)
+                );
+}
+
+void MainWindow::changeSettings(){
+    // Get ui settings
+    settings_threshold = {ui->threshold->toPlainText().toDouble()};
+    settings_erode_iterations = {ui->erosionIterations->toPlainText().toDouble()};
+    double settings [2] = {settings_threshold, settings_erode_iterations};
+    settingsUpdate(settings);
+
+}
+
+void MainWindow::consoleOutput(QString text){
+
+    // Start with new line break
+    console_output.append(QString("\n"));
+    console_output.append(text);
+
+    // Trim output if exceeds output length - 100
+    if (console_output.size() > console_output_length - 100){
+        console_output.remove(0,console_output.size() - (console_output_length - 100));
+    }
+
+    ui->messageOutput->setText(console_output);
+}
+
+/********************************
+ * UI callback functions
+ * *****************************/
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
+    // Capture key press events on top level
     if (obj == ui->jumpFrame) {
         // Check if key press
         if (event->type() == QEvent::KeyPress) {
@@ -189,14 +202,14 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
                 ui->jumpFrame->setText(QString());
                 this->focusWidget()->clearFocus();
                 // Load new frame
-                emit requestFrame(frameCurrent, displayMode);
+                emit frameRequest(frameCurrent, mode_display);
                 return(true);
             }
         }
         // Pass event to parent
         return QMainWindow::eventFilter(obj, event);
     }else if(obj == ui->frame){
-        switch(Mode){
+        switch(mode_ui){
         case Mode_NAVIGATE:
             if (event->type() == QEvent::MouseButtonPress) {
                 QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
@@ -222,22 +235,22 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
                     status_mouse_x->setText("x: " + QString::number(point.x()));
                     status_mouse_y->setText("y: " + QString::number(point.y()));
                     // Log points in memory
-                    switch(static_cast<int>(backgroundClicks[4])){
+                    switch(int(background_definition[4])){
                     // Background click positions are saved as scaled x,y, coords x = (0,1), y = (0,1)
                     // This avoids the error due to the mouse grabbing the position in the scaled display image, as opposed to the
                     // position of the full size video frame.
                     case 0:
-                        backgroundClicks[0] = double(point.x()) /double(ui->frame->size().width());
-                        backgroundClicks[1] = double(point.y())/double(ui->frame->size().height());
-                        backgroundClicks[4] = 1;
+                        background_definition[0] = double(point.x()) /double(ui->frame->size().width());
+                        background_definition[1] = double(point.y())/double(ui->frame->size().height());
+                        background_definition[4] = 1;
                         backgroundRefFrame = frameCurrent;
                         break;
                     case 1:
-                        backgroundClicks[2] = double(point.x()) / double(ui->frame->size().width());
-                        backgroundClicks[3] = double(point.y()) / double(ui->frame->size().height());
-                        backgroundClicks[4] = 2;
+                        background_definition[2] = double(point.x()) / double(ui->frame->size().width());
+                        background_definition[3] = double(point.y()) / double(ui->frame->size().height());
+                        background_definition[4] = 2;
                         ui->frame->setCursor(Qt::ArrowCursor);
-                        statusBar()->showMessage(QString("Move until the fish is out the box..."));
+                        consoleOutput(QString("Move to a frame where the fish has left the box, the define your second background image..."));
                         break;
                     }
                     return(true);
@@ -255,16 +268,87 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     }
     return QMainWindow::eventFilter(obj, event);
 }
+void MainWindow::keyPressEvent(QKeyEvent * event){
+    if (frameCurrent == -1){
+        ui->statusBar->showMessage(QString("No video loaded!"));
+        return;
+    }
+    /**********************************************************
+     * Keyboard controls are different depending on UI mode
+     **********************************************************/
+    switch(mode_ui){
+    case Mode_NAVIGATE:
+        switch(event->key()){
+        case Qt::Key_Z: frameCurrent  = frameCurrent - 1;
+                    checkCurrentFrame();break;
+        case Qt::Key_X: frameCurrent  = frameCurrent + 1;
+                    checkCurrentFrame();break;
+        case Qt::Key_A:  frameCurrent  = frameCurrent - 10;
+                    checkCurrentFrame();break;
+        case Qt::Key_S:  frameCurrent  = frameCurrent + 10;
+                    checkCurrentFrame();break;
+        case Qt::Key_Q:  frameCurrent  = frameCurrent - 100;
+                    checkCurrentFrame();break;
+        case Qt::Key_W:  frameCurrent  = frameCurrent + 100;
+                    checkCurrentFrame();break;
+        case Qt::Key_1:  frameCurrent  = frameCurrent - 1000;
+                    checkCurrentFrame();break;
+        case Qt::Key_2:  frameCurrent  = frameCurrent + 1000;
+                    checkCurrentFrame();break;
+        case Qt::Key_Space: // Playback
+            status_mode->setText(QString("Mode: ANALYSIS"));
+            mode_ui = Mode_ANALYSIS;
+            emit videoPlay(false);
+            break;
+        }
+        break;
+    case Mode_BACKGROUND:
+        switch(event->key()){
+        case Qt::Key_Z: frameCurrent  = frameCurrent - 1;break;
+        case Qt::Key_X: frameCurrent  = frameCurrent + 1;break;
+        case Qt::Key_A:  frameCurrent  = frameCurrent - 10;break;
+        case Qt::Key_S:  frameCurrent  = frameCurrent + 10;break;
+        case Qt::Key_Q:  frameCurrent  = frameCurrent - 100;break;
+        case Qt::Key_W:  frameCurrent  = frameCurrent + 100;break;
+        case Qt::Key_1:  frameCurrent  = frameCurrent - 1000;break;
+        case Qt::Key_2:  frameCurrent  = frameCurrent + 1000;break;
+        }
+        checkCurrentFrame();
+        break;
+    case Mode_DIMENTIONS:
+        switch(event->key()){
+        case Qt::Key_Z: frameCurrent  = frameCurrent - 1;break;
+        case Qt::Key_X: frameCurrent  = frameCurrent + 1;break;
+        case Qt::Key_A:  frameCurrent  = frameCurrent - 10;break;
+        case Qt::Key_S:  frameCurrent  = frameCurrent + 10;break;
+        case Qt::Key_Q:  frameCurrent  = frameCurrent - 100;break;
+        case Qt::Key_W:  frameCurrent  = frameCurrent + 100;break;
+        case Qt::Key_1:  frameCurrent  = frameCurrent - 1000;break;
+        case Qt::Key_2:  frameCurrent  = frameCurrent + 1000;break;
+        }
+        checkCurrentFrame();
+        break;
+    case Mode_ANALYSIS:
+        switch(event->key()){
+        case Qt::Key_Space:
+            mode_ui = Mode_NAVIGATE;
+            status_mode->setText(QString("Mode: NAVIGATE"));
+            emit videoStop();
+            break;
+        }
+        break;
+    }
+}
 
 void MainWindow::on_pushButton_clicked(){
-    switch(Mode){
+    switch(mode_ui){
     case Mode_NAVIGATE:
         /*********************************
          * Start background definition
          *********************************/
-        status_mode->setText(QString("Mode: Background"));
-        Mode = Mode_BACKGROUND;
-        statusBar()->showMessage(QString("Click box around fish..."));
+        status_mode->setText(QString("Mode: BACKGROUND"));
+        mode_ui = Mode_BACKGROUND;
+        consoleOutput("Click a box around fish...\nThe upper left bound, followed by the lower right.");
         ui->frame->setCursor(Qt::CrossCursor);
         backgroundDefined = false;
         break;
@@ -272,14 +356,15 @@ void MainWindow::on_pushButton_clicked(){
         /*********************************
          * Finish background definition
          *********************************/
-        if(backgroundClicks[4] == 2){
-            Mode = Mode_NAVIGATE;
-            status_mode->setText(QString("Mode: Navigate"));
+        if(int(background_definition[4]) == 2){
+            mode_ui = Mode_NAVIGATE;
+            status_mode->setText(QString("Mode: NAVIGATE"));
             backgroundDefined = true;
-            backgroundClicks[4] = 0;
-            emit setBackground(backgroundClicks,backgroundRefFrame);
+            background_definition[4] = 0;
+            emit backgroundSet(background_definition,backgroundRefFrame);
+            consoleOutput("background image defined!");
         }else{
-            statusBar()->showMessage(QString("Click box around fish before defining second image..."));
+            consoleOutput("Click box around fish before defining second image...");
         }
         break;
     case Mode_DIMENTIONS:
@@ -291,102 +376,29 @@ void MainWindow::on_pushButton_clicked(){
     }
 }
 
-void MainWindow::showFrame(int frame, QPixmap pixFrame){
-    // Update current frame
-    frameCurrent = frame;
-    // Update statusbar
-    ui->statusBar->showMessage(
-                QString("Frame: " +
-                        QString::number(frameCurrent) +
-                        '/' +
-                        QString::number(frameMax)));
-    // Scale and push pixmap to UI
-    ui->frame->setPixmap(
-                pixFrame.scaled(QSize(1,ui->previewHeight->toPlainText().toInt()),
-                                 Qt::KeepAspectRatioByExpanding,Qt::FastTransformation)
-                );
-    qDebug() << "Frame updated";
-}
-
-void MainWindow::refreshBackgroundImage(QPixmap pixFrame){
-    // Load new background image
-    ui->background->setPixmap(
-                pixFrame.scaled(QSize(1,ui->previewHeight->toPlainText().toInt()),
-                                 Qt::KeepAspectRatioByExpanding,Qt::FastTransformation)
-                );
-}
-
-void MainWindow::changeSettings(){
-    // Get ui settings
-    settings_threshold = {ui->threshold->toPlainText().toDouble()};
-    settings_erode_iterations = {ui->erosionIterations->toPlainText().toDouble()};
-    double settings [2] = {settings_threshold, settings_erode_iterations};
-    updateSettings(settings);
-
-}
-
 void MainWindow::on_ViewMode_currentIndexChanged(int index)
 {
-    // Save display mdoe type after update (Grayscale, subtraction, binary)
-    displayMode = uiDisplay(index);
+    // Save display mode type after update (Grayscale, subtraction, binary)
+    mode_display = MODE_DISPLAY(index);
 }
 
-void MainWindow::on_Track_B_clicked()
-{
-
-}
-
-void MainWindow::on_pushButton_3_clicked()
-{
-
-}
-
-void MainWindow::on_pushButton_2_clicked()
-{
-
-}
 
 void MainWindow::on_playButton_clicked()
 {
-    std::cout << fileName << endl;
-
-        cv::VideoCapture capVideo;
-        cv::Mat imgFrame;
-
-        capVideo.open(fileName);
-
-        if (!capVideo.isOpened()) {
-            std::cout << "\nerror reading video file" << std::endl << std::endl;
-        }
-
-        if (capVideo.get(CV_CAP_PROP_FRAME_COUNT) < 1) {
-            std::cout << "\nerror: video file must have at least one frame";
-        }
-        capVideo.read(imgFrame);
-
-        char chCheckForEscKey = 0;
-
-        while (capVideo.isOpened() && chCheckForEscKey != 27) {
-
-            cv::imshow("imgFrame", imgFrame);
-            if ((capVideo.get(CV_CAP_PROP_POS_FRAMES) + 1) < capVideo.get(CV_CAP_PROP_FRAME_COUNT)) {
-                capVideo.read(imgFrame);
-            }
-            else {
-                std::cout << "end of video\n";
-                break;
-            }
-            chCheckForEscKey = cv::waitKey(1);
-        }
-
-        if (chCheckForEscKey != 27) {
-            cv::waitKey(0);
-        }
+    switch(mode_ui){
+    case Mode_NAVIGATE:
+        emit videoPlay(false);
+        mode_ui = Mode_ANALYSIS;
+        status_mode->setText(QString("Mode: ANALYSIS"));
+        break;
+    case Mode_ANALYSIS:
+        worker->mode_playback = Detection::playback_STOP;
+        mode_ui = Mode_NAVIGATE;
+        status_mode->setText(QString("Mode: NAVIGATE"));
+        break;
     }
+}
 
-/************************************************
-// Functions for updating anaysis params
-************************************************/
 void MainWindow::on_threshold_textChanged()
 {
     MainWindow::changeSettings();
@@ -398,4 +410,18 @@ void MainWindow::on_erosionIterations_textChanged()
     MainWindow::changeSettings();
 }
 
-
+void MainWindow::on_Track_B_clicked()
+{
+    switch(mode_ui){
+    case Mode_NAVIGATE:
+        emit videoPlay(true);
+        mode_ui = Mode_ANALYSIS;
+        status_mode->setText(QString("Mode: ANALYSIS"));
+        break;
+    case Mode_ANALYSIS:
+        emit videoStop();
+        mode_ui = Mode_NAVIGATE;
+        status_mode->setText(QString("Mode: NAVIGATE"));
+        break;
+    }
+}

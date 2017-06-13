@@ -8,7 +8,9 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    qRegisterMetaType<MainWindow::uiDisplay>();
+    // Register QMATAAYPES before declaring in header files
+    // Necessary to do this with non-standard objects we use in signals
+    qRegisterMetaType<MainWindow::MODE_DISPLAY>();
     qRegisterMetaType<std::string>();
 
 
