@@ -333,7 +333,7 @@ void MainWindow::keyPressEvent(QKeyEvent * event){
         case Qt::Key_Space:
             mode_ui = Mode_NAVIGATE;
             status_mode->setText(QString("Mode: NAVIGATE"));
-            worker->mode_playback = Detection::playback_STOP;
+            emit videoStop();
             break;
         }
         break;
@@ -419,7 +419,7 @@ void MainWindow::on_Track_B_clicked()
         status_mode->setText(QString("Mode: ANALYSIS"));
         break;
     case Mode_ANALYSIS:
-        worker->mode_playback = Detection::playback_STOP;
+        emit videoStop();
         mode_ui = Mode_NAVIGATE;
         status_mode->setText(QString("Mode: NAVIGATE"));
         break;

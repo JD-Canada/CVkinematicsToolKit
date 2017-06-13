@@ -56,6 +56,7 @@ private slots:
     void frameRequest(int, MainWindow::MODE_DISPLAY);
     void videoLoad(std::string);
     void videoPlay(bool);
+    void videoStop();
     void backgroundSet(double *, int);
     void settingsUpdate(double*); // Pass UI options to worker thread
 };

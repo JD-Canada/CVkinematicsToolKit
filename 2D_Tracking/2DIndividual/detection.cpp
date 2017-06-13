@@ -159,3 +159,7 @@ void Detection::videoPlay(bool analyze) {
 
     }
 }
+
+void Detection::videoStop(){
+    mode_playback = playback_STOP;
+}
