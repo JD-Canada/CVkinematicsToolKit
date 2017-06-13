@@ -55,9 +55,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this,SIGNAL(updateSettings(double *)),
             worker, SLOT(updateSettings(double*)));
 
-    displayThread = new Display(this);
-    connect(displayThread,SIGNAL(NumberChanged(int)),this,SLOT(onNumberChanged(int)));
-
     // Recieving
     connect(worker,SIGNAL(showFrame(int, QPixmap)),
                      this, SLOT(showFrame(int, QPixmap)));
@@ -402,8 +399,3 @@ void MainWindow::on_erosionIterations_textChanged()
 }
 
 
-
-void MainWindow::on_plotPB_clicked()
-{
-        plotThread->start();
-}

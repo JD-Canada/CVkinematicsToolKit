@@ -6,8 +6,6 @@
 #include <QLabel>
 #include <QThread>
 
-#include "display.h"
-
 #include <opencv2/opencv.hpp>
 #include <string>
 
@@ -80,7 +78,6 @@ private slots:
     void on_threshold_textChanged();
     void on_erosionIterations_textChanged();
     void on_playButton_clicked();
-    void on_plotPB_clicked();
 };
 
 Q_DECLARE_METATYPE(std::string);

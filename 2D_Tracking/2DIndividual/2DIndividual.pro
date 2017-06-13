@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = 2DIndividual
 TEMPLATE = app
@@ -29,13 +29,9 @@ LIBS += -L/usr/local/lib -lopencv_shape -lopencv_stitching -lopencv_objdetect -l
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    detection.cpp \
-    display.cpp \
-    qcustomplot.cpp
+    detection.cpp
 
 HEADERS  += mainwindow.h \
-    detection.h \
-    display.h \
-    qcustomplot.h
+    detection.h
 
 FORMS    += mainwindow.ui
