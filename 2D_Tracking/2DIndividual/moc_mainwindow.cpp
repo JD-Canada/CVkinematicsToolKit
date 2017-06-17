@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[22];
-    char stringdata0[351];
+    QByteArrayData data[27];
+    char stringdata0[451];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -42,29 +42,37 @@ QT_MOC_LITERAL(7, 82, 11), // "std::string"
 QT_MOC_LITERAL(8, 94, 9), // "videoPlay"
 QT_MOC_LITERAL(9, 104, 9), // "videoStop"
 QT_MOC_LITERAL(10, 114, 14), // "settingsUpdate"
-QT_MOC_LITERAL(11, 129, 20), // "on_loadVideo_clicked"
-QT_MOC_LITERAL(12, 150, 21), // "on_pushButton_clicked"
-QT_MOC_LITERAL(13, 172, 31), // "on_ViewMode_currentIndexChanged"
-QT_MOC_LITERAL(14, 204, 5), // "index"
-QT_MOC_LITERAL(15, 210, 9), // "showFrame"
-QT_MOC_LITERAL(16, 220, 17), // "backgroundRefresh"
-QT_MOC_LITERAL(17, 238, 18), // "on_Track_B_clicked"
-QT_MOC_LITERAL(18, 257, 24), // "on_threshold_textChanged"
-QT_MOC_LITERAL(19, 282, 32), // "on_erosionIterations_textChanged"
-QT_MOC_LITERAL(20, 315, 21), // "on_playButton_clicked"
-QT_MOC_LITERAL(21, 337, 13) // "consoleOutput"
+QT_MOC_LITERAL(11, 129, 16), // "std::vector<int>"
+QT_MOC_LITERAL(12, 146, 11), // "filesUpdate"
+QT_MOC_LITERAL(13, 158, 20), // "on_loadVideo_clicked"
+QT_MOC_LITERAL(14, 179, 21), // "on_pushButton_clicked"
+QT_MOC_LITERAL(15, 201, 31), // "on_ViewMode_currentIndexChanged"
+QT_MOC_LITERAL(16, 233, 5), // "index"
+QT_MOC_LITERAL(17, 239, 9), // "showFrame"
+QT_MOC_LITERAL(18, 249, 17), // "backgroundRefresh"
+QT_MOC_LITERAL(19, 267, 18), // "on_Track_B_clicked"
+QT_MOC_LITERAL(20, 286, 24), // "on_threshold_textChanged"
+QT_MOC_LITERAL(21, 311, 32), // "on_erosionIterations_textChanged"
+QT_MOC_LITERAL(22, 344, 21), // "on_playButton_clicked"
+QT_MOC_LITERAL(23, 366, 13), // "consoleOutput"
+QT_MOC_LITERAL(24, 380, 22), // "on_bDeleteFile_clicked"
+QT_MOC_LITERAL(25, 403, 19), // "on_bAddFile_clicked"
+QT_MOC_LITERAL(26, 423, 27) // "on_bRefreshFileList_clicked"
 
     },
     "MainWindow\0frameRequest\0\0"
     "MainWindow::MODE_DISPLAY\0backgroundSet\0"
     "double*\0videoLoad\0std::string\0videoPlay\0"
-    "videoStop\0settingsUpdate\0on_loadVideo_clicked\0"
+    "videoStop\0settingsUpdate\0std::vector<int>\0"
+    "filesUpdate\0on_loadVideo_clicked\0"
     "on_pushButton_clicked\0"
     "on_ViewMode_currentIndexChanged\0index\0"
     "showFrame\0backgroundRefresh\0"
     "on_Track_B_clicked\0on_threshold_textChanged\0"
     "on_erosionIterations_textChanged\0"
-    "on_playButton_clicked\0consoleOutput"
+    "on_playButton_clicked\0consoleOutput\0"
+    "on_bDeleteFile_clicked\0on_bAddFile_clicked\0"
+    "on_bRefreshFileList_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -74,32 +82,36 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      16,   14, // methods
+      20,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       6,       // signalCount
+       7,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    2,   94,    2, 0x06 /* Public */,
-       4,    2,   99,    2, 0x06 /* Public */,
-       6,    1,  104,    2, 0x06 /* Public */,
-       8,    1,  107,    2, 0x06 /* Public */,
-       9,    0,  110,    2, 0x06 /* Public */,
-      10,    1,  111,    2, 0x06 /* Public */,
+       1,    2,  114,    2, 0x06 /* Public */,
+       4,    2,  119,    2, 0x06 /* Public */,
+       6,    1,  124,    2, 0x06 /* Public */,
+       8,    1,  127,    2, 0x06 /* Public */,
+       9,    0,  130,    2, 0x06 /* Public */,
+      10,    3,  131,    2, 0x06 /* Public */,
+      12,    1,  138,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      11,    0,  114,    2, 0x08 /* Private */,
-      12,    0,  115,    2, 0x08 /* Private */,
-      13,    1,  116,    2, 0x08 /* Private */,
-      15,    2,  119,    2, 0x08 /* Private */,
-      16,    1,  124,    2, 0x08 /* Private */,
-      17,    0,  127,    2, 0x08 /* Private */,
-      18,    0,  128,    2, 0x08 /* Private */,
-      19,    0,  129,    2, 0x08 /* Private */,
-      20,    0,  130,    2, 0x08 /* Private */,
-      21,    1,  131,    2, 0x08 /* Private */,
+      13,    0,  141,    2, 0x08 /* Private */,
+      14,    0,  142,    2, 0x08 /* Private */,
+      15,    1,  143,    2, 0x08 /* Private */,
+      17,    2,  146,    2, 0x08 /* Private */,
+      18,    1,  151,    2, 0x08 /* Private */,
+      19,    0,  154,    2, 0x08 /* Private */,
+      20,    0,  155,    2, 0x08 /* Private */,
+      21,    0,  156,    2, 0x08 /* Private */,
+      22,    0,  157,    2, 0x08 /* Private */,
+      23,    1,  158,    2, 0x08 /* Private */,
+      24,    0,  161,    2, 0x08 /* Private */,
+      25,    0,  162,    2, 0x08 /* Private */,
+      26,    0,  163,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int, 0x80000000 | 3,    2,    2,
@@ -107,12 +119,13 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void, 0x80000000 | 7,    2,
     QMetaType::Void, QMetaType::Bool,    2,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 5,    2,
+    QMetaType::Void, 0x80000000 | 11, 0x80000000 | 11, 0x80000000 | 11,    2,    2,    2,
+    QMetaType::Void, QMetaType::QStringList,    2,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   14,
+    QMetaType::Void, QMetaType::Int,   16,
     QMetaType::Void, QMetaType::Int, QMetaType::QPixmap,    2,    2,
     QMetaType::Void, QMetaType::QPixmap,    2,
     QMetaType::Void,
@@ -120,6 +133,9 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString,    2,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -135,17 +151,21 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 2: _t->videoLoad((*reinterpret_cast< std::string(*)>(_a[1]))); break;
         case 3: _t->videoPlay((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 4: _t->videoStop(); break;
-        case 5: _t->settingsUpdate((*reinterpret_cast< double*(*)>(_a[1]))); break;
-        case 6: _t->on_loadVideo_clicked(); break;
-        case 7: _t->on_pushButton_clicked(); break;
-        case 8: _t->on_ViewMode_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 9: _t->showFrame((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QPixmap(*)>(_a[2]))); break;
-        case 10: _t->backgroundRefresh((*reinterpret_cast< QPixmap(*)>(_a[1]))); break;
-        case 11: _t->on_Track_B_clicked(); break;
-        case 12: _t->on_threshold_textChanged(); break;
-        case 13: _t->on_erosionIterations_textChanged(); break;
-        case 14: _t->on_playButton_clicked(); break;
-        case 15: _t->consoleOutput((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 5: _t->settingsUpdate((*reinterpret_cast< std::vector<int>(*)>(_a[1])),(*reinterpret_cast< std::vector<int>(*)>(_a[2])),(*reinterpret_cast< std::vector<int>(*)>(_a[3]))); break;
+        case 6: _t->filesUpdate((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
+        case 7: _t->on_loadVideo_clicked(); break;
+        case 8: _t->on_pushButton_clicked(); break;
+        case 9: _t->on_ViewMode_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 10: _t->showFrame((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QPixmap(*)>(_a[2]))); break;
+        case 11: _t->backgroundRefresh((*reinterpret_cast< QPixmap(*)>(_a[1]))); break;
+        case 12: _t->on_Track_B_clicked(); break;
+        case 13: _t->on_threshold_textChanged(); break;
+        case 14: _t->on_erosionIterations_textChanged(); break;
+        case 15: _t->on_playButton_clicked(); break;
+        case 16: _t->consoleOutput((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 17: _t->on_bDeleteFile_clicked(); break;
+        case 18: _t->on_bAddFile_clicked(); break;
+        case 19: _t->on_bRefreshFileList_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -205,9 +225,16 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
             }
         }
         {
-            typedef void (MainWindow::*_t)(double * );
+            typedef void (MainWindow::*_t)(std::vector<int> , std::vector<int> , std::vector<int> );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&MainWindow::settingsUpdate)) {
                 *result = 5;
+                return;
+            }
+        }
+        {
+            typedef void (MainWindow::*_t)(QStringList );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&MainWindow::filesUpdate)) {
+                *result = 6;
                 return;
             }
         }
@@ -239,13 +266,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 16)
+        if (_id < 20)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 16;
+        _id -= 20;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 16)
+        if (_id < 20)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 16;
+        _id -= 20;
     }
     return _id;
 }
@@ -285,10 +312,17 @@ void MainWindow::videoStop()
 }
 
 // SIGNAL 5
-void MainWindow::settingsUpdate(double * _t1)
+void MainWindow::settingsUpdate(std::vector<int> _t1, std::vector<int> _t2, std::vector<int> _t3)
+{
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)) };
+    QMetaObject::activate(this, &staticMetaObject, 5, _a);
+}
+
+// SIGNAL 6
+void MainWindow::filesUpdate(QStringList _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(this, &staticMetaObject, 5, _a);
+    QMetaObject::activate(this, &staticMetaObject, 6, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

@@ -35,7 +35,10 @@ private:
     cv::Rect ROI; // Rectangle holding fish for background image creation
 
     int frameReference, currentFrame, frameMax, backgroundRefFrame;
-    double threshold, iterations;
+    std::vector<int> threshold, erosion, dilation;
+    QStringList files;
+    QString filePath, fileName;
+    int fileNumber;
 
     bool backgroundDefined, display;
 
@@ -59,6 +62,8 @@ private slots:
     void videoStop();
     void backgroundSet(double *, int);
     void settingsUpdate(double*); // Pass UI options to worker thread
+    void settingsUpdate(std::vector<int>,std::vector<int>,std::vector<int>); // Pass UI options to worker thread
+    void filesUpdate(QStringList); // Pass new file names to worker thread
 };
 
 //The Q_DECLATE macro is required for non-standard variables passed through signals

@@ -8,6 +8,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <string>
+#include <vector>
 
 namespace Ui {
 class MainWindow;
@@ -41,13 +42,15 @@ private:
 
     void checkCurrentFrame();
     void changeSettings();
+    void changeFiles();
+    QStringList getTrackingFiles();
 
     // UI & Modes
     MODE_UI mode_ui;
     QPixmap displayFrame, displayBackground;
     bool backgroundDefined, dimentionsDefined;
-    std::string fileName;
-    QString console_output;
+    QStringList files;
+    QString console_output, fileName, filePath;
 
     //Statusbar
     QLabel* status_mouse_x, * status_mouse_y, * status_mode;
@@ -64,8 +67,8 @@ signals:
     void videoLoad(std::string);
     void videoPlay(bool); // bool true = analysis, false = playback
     void videoStop(); // stop video playback/analysis
-    void settingsUpdate(double*); // Pass UI options to worker thread
-
+    void settingsUpdate(std::vector<int>,std::vector<int>,std::vector<int>); // Pass UI options to worker thread
+    void filesUpdate(QStringList); // Pass new file names to worker thread
 private slots:
     // UI slots
     void on_loadVideo_clicked();
@@ -80,10 +83,14 @@ private slots:
     void on_erosionIterations_textChanged();
     void on_playButton_clicked();
     void consoleOutput(QString);
+    void on_bDeleteFile_clicked();
+    void on_bAddFile_clicked();
+    void on_bRefreshFileList_clicked();
 };
 
 Q_DECLARE_METATYPE(std::string);
 Q_DECLARE_METATYPE(MainWindow::MODE_DISPLAY); // This must be after class declaration
 Q_DECLARE_METATYPE(QString);
+Q_DECLARE_METATYPE(QStringList);
 
 #endif // MAINWINDOW_H

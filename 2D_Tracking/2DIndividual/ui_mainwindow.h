@@ -13,7 +13,6 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
@@ -26,6 +25,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -76,17 +76,20 @@ public:
     QGridLayout *gridLayout_5;
     QGroupBox *groupBox_5;
     QGridLayout *gridLayout_8;
-    QTextEdit *threshold;
+    QTextEdit *etBwThreshold;
     QLabel *sdadw;
-    QGroupBox *groupBox_4;
-    QGridLayout *gridLayout_4;
-    QCheckBox *checkBox_4;
-    QLabel *sadd;
-    QTextEdit *erosionIterations;
-    QLabel *sadd_2;
-    QCheckBox *checkBox_3;
     QSpacerItem *horizontalSpacer;
     QHBoxLayout *horizontalLayout_3;
+    QWidget *tab_2;
+    QWidget *verticalLayoutWidget;
+    QVBoxLayout *verticalLayout_3;
+    QTableWidget *table_FileList;
+    QHBoxLayout *horizontalLayout;
+    QLabel *label_4;
+    QPushButton *bAddFile;
+    QPushButton *bDeleteFile;
+    QPushButton *bRefreshFileList;
+    QSpacerItem *horizontalSpacer_2;
     QTextEdit *messageOutput;
     QWidget *data;
     QWidget *tab3;
@@ -443,25 +446,25 @@ public:
         gridLayout_8->setSpacing(6);
         gridLayout_8->setContentsMargins(11, 11, 11, 11);
         gridLayout_8->setObjectName(QStringLiteral("gridLayout_8"));
-        threshold = new QTextEdit(groupBox_5);
-        threshold->setObjectName(QStringLiteral("threshold"));
+        etBwThreshold = new QTextEdit(groupBox_5);
+        etBwThreshold->setObjectName(QStringLiteral("etBwThreshold"));
         QSizePolicy sizePolicy9(QSizePolicy::Maximum, QSizePolicy::Minimum);
         sizePolicy9.setHorizontalStretch(0);
         sizePolicy9.setVerticalStretch(0);
-        sizePolicy9.setHeightForWidth(threshold->sizePolicy().hasHeightForWidth());
-        threshold->setSizePolicy(sizePolicy9);
-        threshold->setMinimumSize(QSize(0, 24));
-        threshold->setMaximumSize(QSize(50, 24));
-        threshold->setFont(font);
-        threshold->setAutoFillBackground(false);
-        threshold->setInputMethodHints(Qt::ImhDigitsOnly);
-        threshold->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        threshold->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        threshold->setTabChangesFocus(true);
-        threshold->setLineWrapMode(QTextEdit::NoWrap);
-        threshold->setAcceptRichText(false);
+        sizePolicy9.setHeightForWidth(etBwThreshold->sizePolicy().hasHeightForWidth());
+        etBwThreshold->setSizePolicy(sizePolicy9);
+        etBwThreshold->setMinimumSize(QSize(0, 24));
+        etBwThreshold->setMaximumSize(QSize(50, 24));
+        etBwThreshold->setFont(font);
+        etBwThreshold->setAutoFillBackground(false);
+        etBwThreshold->setInputMethodHints(Qt::ImhDigitsOnly);
+        etBwThreshold->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        etBwThreshold->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        etBwThreshold->setTabChangesFocus(true);
+        etBwThreshold->setLineWrapMode(QTextEdit::NoWrap);
+        etBwThreshold->setAcceptRichText(false);
 
-        gridLayout_8->addWidget(threshold, 0, 1, 1, 1);
+        gridLayout_8->addWidget(etBwThreshold, 0, 1, 1, 1);
 
         sdadw = new QLabel(groupBox_5);
         sdadw->setObjectName(QStringLiteral("sdadw"));
@@ -481,75 +484,6 @@ public:
 
         verticalLayout_2->addWidget(groupBox);
 
-        groupBox_4 = new QGroupBox(tab_3);
-        groupBox_4->setObjectName(QStringLiteral("groupBox_4"));
-        QSizePolicy sizePolicy10(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-        sizePolicy10.setHorizontalStretch(0);
-        sizePolicy10.setVerticalStretch(0);
-        sizePolicy10.setHeightForWidth(groupBox_4->sizePolicy().hasHeightForWidth());
-        groupBox_4->setSizePolicy(sizePolicy10);
-        groupBox_4->setMinimumSize(QSize(0, 60));
-        groupBox_4->setMaximumSize(QSize(500, 100));
-        groupBox_4->setBaseSize(QSize(0, 60));
-        gridLayout_4 = new QGridLayout(groupBox_4);
-        gridLayout_4->setSpacing(6);
-        gridLayout_4->setContentsMargins(11, 11, 11, 11);
-        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
-        checkBox_4 = new QCheckBox(groupBox_4);
-        checkBox_4->setObjectName(QStringLiteral("checkBox_4"));
-
-        gridLayout_4->addWidget(checkBox_4, 0, 0, 2, 1);
-
-        sadd = new QLabel(groupBox_4);
-        sadd->setObjectName(QStringLiteral("sadd"));
-        sizePolicy6.setHeightForWidth(sadd->sizePolicy().hasHeightForWidth());
-        sadd->setSizePolicy(sizePolicy6);
-        sadd->setMinimumSize(QSize(0, 24));
-        sadd->setMaximumSize(QSize(50, 24));
-        sadd->setFont(font);
-        sadd->setAutoFillBackground(false);
-        sadd->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-
-        gridLayout_4->addWidget(sadd, 0, 1, 2, 1);
-
-        erosionIterations = new QTextEdit(groupBox_4);
-        erosionIterations->setObjectName(QStringLiteral("erosionIterations"));
-        sizePolicy6.setHeightForWidth(erosionIterations->sizePolicy().hasHeightForWidth());
-        erosionIterations->setSizePolicy(sizePolicy6);
-        erosionIterations->setMinimumSize(QSize(0, 24));
-        erosionIterations->setMaximumSize(QSize(40, 24));
-        erosionIterations->setFont(font);
-        erosionIterations->setLayoutDirection(Qt::LeftToRight);
-        erosionIterations->setAutoFillBackground(false);
-        erosionIterations->setInputMethodHints(Qt::ImhDigitsOnly);
-        erosionIterations->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        erosionIterations->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        erosionIterations->setTabChangesFocus(true);
-        erosionIterations->setLineWrapMode(QTextEdit::NoWrap);
-        erosionIterations->setAcceptRichText(false);
-
-        gridLayout_4->addWidget(erosionIterations, 0, 2, 2, 2);
-
-        sadd_2 = new QLabel(groupBox_4);
-        sadd_2->setObjectName(QStringLiteral("sadd_2"));
-        sizePolicy6.setHeightForWidth(sadd_2->sizePolicy().hasHeightForWidth());
-        sadd_2->setSizePolicy(sizePolicy6);
-        sadd_2->setMinimumSize(QSize(0, 24));
-        sadd_2->setMaximumSize(QSize(50, 24));
-        sadd_2->setFont(font);
-        sadd_2->setAutoFillBackground(false);
-        sadd_2->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-
-        gridLayout_4->addWidget(sadd_2, 1, 3, 2, 1);
-
-        checkBox_3 = new QCheckBox(groupBox_4);
-        checkBox_3->setObjectName(QStringLiteral("checkBox_3"));
-
-        gridLayout_4->addWidget(checkBox_3, 2, 0, 1, 1);
-
-
-        verticalLayout_2->addWidget(groupBox_4);
-
 
         gridLayout_12->addLayout(verticalLayout_2, 0, 0, 1, 1);
 
@@ -564,16 +498,72 @@ public:
         gridLayout_12->addLayout(horizontalLayout_3, 0, 2, 1, 1);
 
         tabWidget_2->addTab(tab_3, QString());
+        tab_2 = new QWidget();
+        tab_2->setObjectName(QStringLiteral("tab_2"));
+        verticalLayoutWidget = new QWidget(tab_2);
+        verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
+        verticalLayoutWidget->setGeometry(QRect(0, -1, 441, 201));
+        verticalLayout_3 = new QVBoxLayout(verticalLayoutWidget);
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        verticalLayout_3->setContentsMargins(0, 0, 0, 0);
+        table_FileList = new QTableWidget(verticalLayoutWidget);
+        if (table_FileList->columnCount() < 4)
+            table_FileList->setColumnCount(4);
+        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
+        table_FileList->setHorizontalHeaderItem(0, __qtablewidgetitem);
+        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
+        table_FileList->setHorizontalHeaderItem(1, __qtablewidgetitem1);
+        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
+        table_FileList->setHorizontalHeaderItem(2, __qtablewidgetitem2);
+        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
+        table_FileList->setHorizontalHeaderItem(3, __qtablewidgetitem3);
+        table_FileList->setObjectName(QStringLiteral("table_FileList"));
+
+        verticalLayout_3->addWidget(table_FileList);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        label_4 = new QLabel(verticalLayoutWidget);
+        label_4->setObjectName(QStringLiteral("label_4"));
+
+        horizontalLayout->addWidget(label_4);
+
+        bAddFile = new QPushButton(verticalLayoutWidget);
+        bAddFile->setObjectName(QStringLiteral("bAddFile"));
+
+        horizontalLayout->addWidget(bAddFile);
+
+        bDeleteFile = new QPushButton(verticalLayoutWidget);
+        bDeleteFile->setObjectName(QStringLiteral("bDeleteFile"));
+
+        horizontalLayout->addWidget(bDeleteFile);
+
+        bRefreshFileList = new QPushButton(verticalLayoutWidget);
+        bRefreshFileList->setObjectName(QStringLiteral("bRefreshFileList"));
+
+        horizontalLayout->addWidget(bRefreshFileList);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_2);
+
+
+        verticalLayout_3->addLayout(horizontalLayout);
+
+        tabWidget_2->addTab(tab_2, QString());
 
         horizontalLayout_5->addWidget(tabWidget_2);
 
         messageOutput = new QTextEdit(tracking);
         messageOutput->setObjectName(QStringLiteral("messageOutput"));
-        QSizePolicy sizePolicy11(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        sizePolicy11.setHorizontalStretch(1);
-        sizePolicy11.setVerticalStretch(0);
-        sizePolicy11.setHeightForWidth(messageOutput->sizePolicy().hasHeightForWidth());
-        messageOutput->setSizePolicy(sizePolicy11);
+        QSizePolicy sizePolicy10(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy10.setHorizontalStretch(1);
+        sizePolicy10.setVerticalStretch(0);
+        sizePolicy10.setHeightForWidth(messageOutput->sizePolicy().hasHeightForWidth());
+        messageOutput->setSizePolicy(sizePolicy10);
         messageOutput->setMinimumSize(QSize(20, 180));
         messageOutput->setMaximumSize(QSize(2000, 180));
         messageOutput->setBaseSize(QSize(180, 180));
@@ -620,7 +610,7 @@ public:
         QObject::connect(radioButton_2, SIGNAL(toggled(bool)), pushButton, SLOT(setDisabled(bool)));
 
         tabWidget->setCurrentIndex(0);
-        tabWidget_2->setCurrentIndex(0);
+        tabWidget_2->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -669,23 +659,26 @@ public:
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab), QApplication::translate("MainWindow", "Video", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("MainWindow", "Filtering:", Q_NULLPTR));
         groupBox_5->setTitle(QApplication::translate("MainWindow", "Contour Threshold:", Q_NULLPTR));
-        threshold->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        etBwThreshold->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'Arial'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Ubuntu'; font-size:11pt;\">20</span></p></body></html>", Q_NULLPTR));
         sdadw->setText(QApplication::translate("MainWindow", "Value:", Q_NULLPTR));
-        groupBox_4->setTitle(QApplication::translate("MainWindow", "Apply:", Q_NULLPTR));
-        checkBox_4->setText(QApplication::translate("MainWindow", "Erosion", Q_NULLPTR));
-        sadd->setText(QApplication::translate("MainWindow", "# itrs", Q_NULLPTR));
-        erosionIterations->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'Arial'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Ubuntu'; font-size:11pt;\">2</span></p></body></html>", Q_NULLPTR));
-        sadd_2->setText(QApplication::translate("MainWindow", "# itrs", Q_NULLPTR));
-        checkBox_3->setText(QApplication::translate("MainWindow", "Dilation", Q_NULLPTR));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_3), QApplication::translate("MainWindow", "Tracking filters", Q_NULLPTR));
+        QTableWidgetItem *___qtablewidgetitem = table_FileList->horizontalHeaderItem(0);
+        ___qtablewidgetitem->setText(QApplication::translate("MainWindow", "File", Q_NULLPTR));
+        QTableWidgetItem *___qtablewidgetitem1 = table_FileList->horizontalHeaderItem(1);
+        ___qtablewidgetitem1->setText(QApplication::translate("MainWindow", "Threshold", Q_NULLPTR));
+        QTableWidgetItem *___qtablewidgetitem2 = table_FileList->horizontalHeaderItem(2);
+        ___qtablewidgetitem2->setText(QApplication::translate("MainWindow", "Erosion", Q_NULLPTR));
+        QTableWidgetItem *___qtablewidgetitem3 = table_FileList->horizontalHeaderItem(3);
+        ___qtablewidgetitem3->setText(QApplication::translate("MainWindow", "Dilation", Q_NULLPTR));
+        label_4->setText(QApplication::translate("MainWindow", "Files:", Q_NULLPTR));
+        bAddFile->setText(QApplication::translate("MainWindow", "Add", Q_NULLPTR));
+        bDeleteFile->setText(QApplication::translate("MainWindow", "Delete", Q_NULLPTR));
+        bRefreshFileList->setText(QApplication::translate("MainWindow", "Refresh", Q_NULLPTR));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_2), QApplication::translate("MainWindow", "Files", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tracking), QApplication::translate("MainWindow", "Tracking", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(data), QApplication::translate("MainWindow", "Data", Q_NULLPTR));
         background->setText(QString());

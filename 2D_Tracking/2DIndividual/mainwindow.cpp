@@ -18,6 +18,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QMessageBox>
+#include <QDir>
 
 // c++ std libs
 #include <string>
@@ -46,12 +47,14 @@ MainWindow::MainWindow(QWidget *parent) :
                      worker, SLOT(frameRequest(int, MainWindow::MODE_DISPLAY)));
     connect(this,SIGNAL(backgroundSet(double *, int)),
             worker, SLOT(backgroundSet(double *, int)));
-    connect(this,SIGNAL(settingsUpdate(double *)),
-            worker, SLOT(settingsUpdate(double *)));
+    connect(this,SIGNAL(settingsUpdate(std::vector<int>,std::vector<int>,std::vector<int>)),
+            worker, SLOT(settingsUpdate(std::vector<int>,std::vector<int>,std::vector<int>)));
     connect(this,SIGNAL(videoPlay(bool)),
             worker, SLOT(videoPlay(bool)));
     connect(this,SIGNAL(videoStop()),
             worker, SLOT(videoStop()));
+    connect(this,SIGNAL(fileUpdate(QStringList)),
+            worker, SLOT(fileUpdate(QStringList)));
 
     // Recieving
     connect(worker,SIGNAL(showFrame(int, QPixmap)),
@@ -106,8 +109,14 @@ MainWindow::~MainWindow()
 void MainWindow::on_loadVideo_clicked()
 {
     // Get video location
-    fileName = QFileDialog::getOpenFileName(this,
+    std::string input = QFileDialog::getOpenFileName(this,
         tr("Open Video"), "/home/", tr("Video Files (*.mp4 *.avi *.h264)")).toStdString();
+
+    // Save vidoe name and path
+    size_t found = input.find_last_of("/\\");
+    fileName = QString::fromStdString(std::string(fileName.substr(found = 1, input.length())));
+    filePath = QString::fromStdString(std::string(fileName.substr(0, found)));
+
 
     // Load first frame
     frameCurrent= 0;
@@ -122,6 +131,9 @@ void MainWindow::on_loadVideo_clicked()
     frameMax = int(video.get(cv::CAP_PROP_FRAME_COUNT));
     video.release();
     emit videoLoad(fileName);
+
+    // Load files associated with video
+    on_bRefreshFileList_clicked();
 }
 
 void MainWindow::checkCurrentFrame(){
@@ -134,8 +146,6 @@ void MainWindow::checkCurrentFrame(){
     // Add new frame number to statusbar
     emit frameRequest(frameCurrent, mode_display);
 }
-
-
 
 void MainWindow::showFrame(int frame, QPixmap pixFrame){
     // Update current frame
@@ -163,15 +173,56 @@ void MainWindow::backgroundRefresh(QPixmap pixFrame){
 }
 
 void MainWindow::changeSettings(){
-    // Get ui settings
-    settings_threshold = {ui->threshold->toPlainText().toDouble()};
-    settings_erode_iterations = {ui->erosionIterations->toPlainText().toDouble()};
-    double settings [2] = {settings_threshold, settings_erode_iterations};
-    settingsUpdate(settings);
+    // Load tracking settings for each file from UI
+    // then push to worker thread
 
+    // Get ui settings from files table
+    ulong tanks = ulong(ui->table_FileList->rowCount());
+    std::vector<int> threshold(tanks);
+    std::vector<int> erosion(tanks);
+    std::vector<int> dilation(tanks);
+
+    for(ulong j = 0;j < tanks;j++){ // Loop table files
+        threshold[j] = ui->table_FileList->item(int(j),2)->text().toInt();
+        erosion[j] = ui->table_FileList->item(int(j),3)->text().toInt();
+        dilation[j] = ui->table_FileList->item(int(j),4)->text().toInt();
+    }
+
+    emit settingsUpdate(threshold, erosion, dilation);
+}
+
+void MainWindow::changeFiles(){
+    // Load tracking files for each file from UI
+    // then push to worker thread
+
+    // Get ui settings from files table
+    int tanks = ui->table_FileList->rowCount();
+    QStringList files;
+
+    for(int j = 0;j < tanks;j++){ // Loop table files
+        files.append(ui->table_FileList->item(j,1)->text());
+    }
+
+    emit filesUpdate(files);
+}
+
+
+QStringList MainWindow::getTrackingFiles()
+{
+    // Get path from video file name
+    QDir directory(filePath);
+    // Set filter for files named videoName*.dat
+    QString nameFilter = QString::fromStdString(fileName));
+    nameFilter.append("*.dat");
+    directory.setNameFilters(QStringList(nameFilter));
+    directory.setFilter(QDir::Files);
+    // Read filtered files from directory
+    QStringList files = directory.entryList();
+    return(files);
 }
 
 void MainWindow::consoleOutput(QString text){
+    // Slot for appending test to ui console output
 
     // Start with new line break
     console_output.append(QString("\n"));
@@ -382,7 +433,6 @@ void MainWindow::on_ViewMode_currentIndexChanged(int index)
     mode_display = MODE_DISPLAY(index);
 }
 
-
 void MainWindow::on_playButton_clicked()
 {
     switch(mode_ui){
@@ -399,17 +449,6 @@ void MainWindow::on_playButton_clicked()
     }
 }
 
-void MainWindow::on_threshold_textChanged()
-{
-    MainWindow::changeSettings();
-}
-
-void MainWindow::on_erosionIterations_textChanged()
-{
-
-    MainWindow::changeSettings();
-}
-
 void MainWindow::on_Track_B_clicked()
 {
     switch(mode_ui){
@@ -424,4 +463,67 @@ void MainWindow::on_Track_B_clicked()
         status_mode->setText(QString("Mode: NAVIGATE"));
         break;
     }
+}
+
+void MainWindow::on_bDeleteFile_clicked()
+{
+    ui->table_FileList->removeRow(ui->table_FileList->currentRow());
+    changeSettings();
+    changeFiles();
+}
+
+void MainWindow::on_bAddFile_clicked()
+{
+    //Create file for new tank
+    on_bRefreshFileList_clicked(); // refresh file list
+
+    //Generate file name
+    while(){
+
+    }
+    //Get file type
+
+    // Initialze file on disk
+
+    // Map
+
+}
+
+void MainWindow::on_bRefreshFileList_clicked()
+{
+    // Get tracking files for video
+    QStringList files = getTrackingFiles();
+
+    // Temp variables for comparing file names
+    QString valueTable;
+    QString valueDir;
+
+    // Add missing files to table
+    QStringList tableFiles;
+    for(int j = 0;j < ui->table_FileList->rowCount();j++){ // Make QSTringList from table
+        tableFiles.append(ui->table_FileList->item(j,1)->text());
+    }
+    for(int j = 0;j < files.count();j++){ // Loop dir files
+        valueDir = files.takeAt(j);
+        if(!tableFiles.contains(valueDir)){
+            ui->table_FileList->insertRow(0);
+            ui->table_FileList->setItem(0,1,new QTableWidgetItem(valueDir,0));
+            ui->table_FileList->setItem(0,2,new QTableWidgetItem(0,0));
+            ui->table_FileList->setItem(0,3,new QTableWidgetItem(0,0));
+            ui->table_FileList->setItem(0,4,new QTableWidgetItem(0,0));
+        }
+    }
+
+    // Remove missing files from table
+    for(int j = 0;j < ui->table_FileList->rowCount();j++){ // Loop table files
+        valueTable = ui->table_FileList->item(j,1)->text();
+        if(!files.contains(valueTable)){
+            // Remove item if does not exist in directory
+            ui->table_FileList->removeRow(j);
+        }
+    }
+
+    ui->table_FileList->sortItems(1); // Sort table items
+    changeSettings();
+    changeFiles();
 }

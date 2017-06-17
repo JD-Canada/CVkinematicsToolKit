@@ -25,23 +25,23 @@ void Detection::analyseFrame(){
     /**********************************
      * Appy image subtraction
      * *******************************/
+
     // Subtract images;
     cv::absdiff(matBackground,matFrame,matDiff);
     // Convert to binary image
     cv::threshold(matDiff,matBw,threshold,
                           255,cv::THRESH_BINARY);
-    // Erode uses default 3x3 mat pattern wne Mat() is used
+    // Erode uses default 3x3 mat pattern when Mat() is used
     cv::erode(matBw,matBw,cv::Mat(),
               cv::Point(-1,-1),int(iterations),1,1);
 }
 
-void Detection::settingsUpdate(double* settings){
-    // [ErosionIterations]
-    threshold = settings[0];
-    iterations = settings[1];
-}
-
 void Detection::videoLoad(std::string filename){
+    // Save video name and path
+    size_t found = filename.find_last_of("/\\");
+    fileName = QString::fromStdString(std::string(filename.substr(0, found)));
+    filePath = QString::fromStdString(std::string(filename.substr(found + 1, filename.length())));
+
     video.open(filename);
     if (!video.isOpened()) {
         emit consoleOutput(QString("Error reading video file"));
@@ -162,4 +162,17 @@ void Detection::videoPlay(bool analyze) {
 
 void Detection::videoStop(){
     mode_playback = playback_STOP;
+}
+
+void Detection::filesUpdate(QStringList filesx){
+    files = filesx;
+
+
+    // Reset memmap variables
+}
+
+void Detection::settingsUpdate(std::vector<int> thresholdx, std::vector<int> erosionx, std::vector<int> dilationx){
+    threshold = thresholdx;
+    erosion = erosionx;
+    dilation = dilationx;
 }
