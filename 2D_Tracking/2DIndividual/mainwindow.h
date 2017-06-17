@@ -59,7 +59,7 @@ private:
     double background_definition [5];
 
     // Settings
-    double settings_threshold, settings_erode_iterations;
+    double settings_threshold, settings_erode_iterations, fps;
 
 signals:
     void frameRequest(int, MainWindow::MODE_DISPLAY);

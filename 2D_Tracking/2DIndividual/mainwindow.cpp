@@ -114,9 +114,8 @@ void MainWindow::on_loadVideo_clicked()
 
     // Save vidoe name and path
     size_t found = input.find_last_of("/\\");
-    fileName = QString::fromStdString(std::string(fileName.substr(found = 1, input.length())));
-    filePath = QString::fromStdString(std::string(fileName.substr(0, found)));
-
+    fileName = QString::fromStdString(std::string(input.substr(found = 1, input.length())));
+    filePath = QString::fromStdString(std::string(input.substr(0, found)));
 
     // Load first frame
     frameCurrent= 0;
@@ -127,10 +126,11 @@ void MainWindow::on_loadVideo_clicked()
 
     // Open video object and pass to worker thread
     cv::VideoCapture video;
-    video = cv::VideoCapture(fileName);
+    video = cv::VideoCapture(filePath.toStdString() + fileName.toStdString());
     frameMax = int(video.get(cv::CAP_PROP_FRAME_COUNT));
+    fps = video.get(cv::CAP_PROP_FPS);
     video.release();
-    emit videoLoad(fileName);
+    emit videoLoad(filePath.toStdString() + fileName.toStdString());
 
     // Load files associated with video
     on_bRefreshFileList_clicked();
@@ -212,7 +212,7 @@ QStringList MainWindow::getTrackingFiles()
     // Get path from video file name
     QDir directory(filePath);
     // Set filter for files named videoName*.dat
-    QString nameFilter = QString::fromStdString(fileName));
+    QString nameFilter = fileName;
     nameFilter.append("*.dat");
     directory.setNameFilters(QStringList(nameFilter));
     directory.setFilter(QDir::Files);
@@ -477,16 +477,45 @@ void MainWindow::on_bAddFile_clicked()
     //Create file for new tank
     on_bRefreshFileList_clicked(); // refresh file list
 
-    //Generate file name
-    while(){
+    QStringList files = getTrackingFiles();
+    QString newFile;
+    int i = 0;
+    //Generate file name (check for already existing files of same name)
+    do{
+        newFile = QString::fromStdString(filePath.toStdString() + fileName.toStdString() + "_Tank" + std::to_string(i) + ".dat");
+    }while(files.contains(newFile));
 
+    //Get file type from user
+    QMessageBox msgBox;
+    msgBox.setText("Select analysis type.");
+    QAbstractButton* pButton2D = msgBox.addButton(tr("2D Tracking"), QMessageBox::NoRole);
+    QAbstractButton* pButton3D = msgBox.addButton(tr("3D Tracking"), QMessageBox::NoRole);
+    msgBox.exec();
+    int type, multiplier;
+    if (msgBox.clickedButton()==pButton2D) {
+        type = 1;
+        multiplier = 1;
+    }else if (msgBox.clickedButton()==pButton3D){
+        type = 2;
+        multiplier = 2; //3D tracking has double file size
+        // Needs front and back tank walls, and 2 xy positions for each point
     }
-    //Get file type
 
     // Initialze file on disk
+    QFile newData(newFile);
+    newData.open(QIODevice::WriteOnly | QIODevice::Append);
+    QDataStream out(&newData);
+    out.setByteOrder(QDataStream::LittleEndian);
+    out<<double(type);
+    out<<double(0);
+    out<<double(0);
+    out<<double(fps);
+    for(i=1;i<= ((frameMax*2) + 8)*multiplier;i++){
+        out<<double(0);
+    }
+    newData.close();
 
-    // Map
-
+    on_bRefreshFileList_clicked(); // refresh file list
 }
 
 void MainWindow::on_bRefreshFileList_clicked()

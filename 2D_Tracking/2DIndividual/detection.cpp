@@ -167,6 +167,20 @@ void Detection::videoStop(){
 void Detection::filesUpdate(QStringList filesx){
     files = filesx;
 
+    // If no data files present, exit
+    if(files.length() < 1){
+        return;
+    }
+
+    // Map new files
+    data.clear(); // clear previous list of data
+    for(int i = 1; i < files.length(); i++){
+        QFile tempFile(files.takeAt(i));
+        tempFile.open(QIODevice::ReadWrite);
+
+        double* test = tempFile.map(0,files[i].size());
+    }
+
 
     // Reset memmap variables
 }

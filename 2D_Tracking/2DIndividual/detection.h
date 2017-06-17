@@ -37,6 +37,7 @@ private:
     int frameReference, currentFrame, frameMax, backgroundRefFrame;
     std::vector<int> threshold, erosion, dilation;
     QStringList files;
+    QList<double*> data;
     QString filePath, fileName;
     int fileNumber;
 
