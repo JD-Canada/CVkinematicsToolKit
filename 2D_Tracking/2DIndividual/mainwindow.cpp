@@ -195,7 +195,7 @@ void MainWindow::changeFiles(){
     // Load tracking files for each file from UI
     // then push to worker thread
 
-    // Get ui settings from files table
+    // Get file names from table
     int tanks = ui->table_FileList->rowCount();
     QStringList files;
 
@@ -204,6 +204,7 @@ void MainWindow::changeFiles(){
     }
 
     emit filesUpdate(files);
+    changeSettings();
 }
 
 
@@ -467,9 +468,13 @@ void MainWindow::on_Track_B_clicked()
 
 void MainWindow::on_bDeleteFile_clicked()
 {
-    ui->table_FileList->removeRow(ui->table_FileList->currentRow());
-    changeSettings();
-    changeFiles();
+
+    QString tempString = ui->table_FileList->takeItem(ui->table_FileList->currentRow(),1)->text();
+    QFile tempFile(tempString);
+    tempFile.remove();
+
+    // Update app with file changes
+    on_bRefreshFileList_clicked();
 }
 
 void MainWindow::on_bAddFile_clicked()
@@ -516,6 +521,7 @@ void MainWindow::on_bAddFile_clicked()
     newData.close();
 
     on_bRefreshFileList_clicked(); // refresh file list
+    consoleOutput(QString("New tracking file created."));
 }
 
 void MainWindow::on_bRefreshFileList_clicked()
@@ -553,6 +559,5 @@ void MainWindow::on_bRefreshFileList_clicked()
     }
 
     ui->table_FileList->sortItems(1); // Sort table items
-    changeSettings();
     changeFiles();
 }

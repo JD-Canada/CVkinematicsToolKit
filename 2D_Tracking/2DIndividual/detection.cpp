@@ -23,7 +23,7 @@ Detection::~Detection()
 
 void Detection::analyseFrame(){
     /**********************************
-     * Appy image subtraction
+     * Appy image subtraction on each tank area
      * *******************************/
 
     // Subtract images;
@@ -177,12 +177,14 @@ void Detection::filesUpdate(QStringList filesx){
     for(int i = 1; i < files.length(); i++){
         QFile tempFile(files.takeAt(i));
         tempFile.open(QIODevice::ReadWrite);
+        // Map file as byte array (uchar*)
+        uchar* mmap = tempFile.map(0,files[i].size());
+        // Convert byte array to double array
+        data.append(reinterpret_cast<double*>(mmap));
+        qDebug() << "testData uchar:" << data[1]<< data[4];
 
-        double* test = tempFile.map(0,files[i].size());
+        // The mapping should persist until the QFile is desstroyed (next call to this function)
     }
-
-
-    // Reset memmap variables
 }
 
 void Detection::settingsUpdate(std::vector<int> thresholdx, std::vector<int> erosionx, std::vector<int> dilationx){
