@@ -9,6 +9,9 @@
 #include <opencv2/opencv.hpp>
 #include <string>
 
+#include "qcustomplot.h"
+
+
 namespace Ui {
 class MainWindow;
 }
@@ -25,6 +28,7 @@ public:
 
     // Showframe on UI
     void loadFrame(bool load = true);
+    void setupQuadraticDemo(QCustomPlot *customPlot);
 
 protected:
     // Capture user input (Override default action)
