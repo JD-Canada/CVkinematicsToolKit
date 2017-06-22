@@ -29,6 +29,7 @@
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "qcustomplot.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -92,6 +93,9 @@ public:
     QWidget *tab3;
     QGridLayout *gridLayout_3;
     QLabel *background;
+    QWidget *plots;
+    QGridLayout *gridLayout_9;
+    QCustomPlot *customPlot;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -608,6 +612,18 @@ public:
         gridLayout_3->addWidget(background, 0, 0, 1, 1);
 
         tabWidget->addTab(tab3, QString());
+        plots = new QWidget();
+        plots->setObjectName(QStringLiteral("plots"));
+        gridLayout_9 = new QGridLayout(plots);
+        gridLayout_9->setSpacing(6);
+        gridLayout_9->setContentsMargins(11, 11, 11, 11);
+        gridLayout_9->setObjectName(QStringLiteral("gridLayout_9"));
+        customPlot = new QCustomPlot(plots);
+        customPlot->setObjectName(QStringLiteral("customPlot"));
+
+        gridLayout_9->addWidget(customPlot, 0, 0, 1, 1);
+
+        tabWidget->addTab(plots, QString());
 
         gridLayout->addWidget(tabWidget, 1, 0, 1, 1);
 
@@ -619,7 +635,7 @@ public:
         retranslateUi(MainWindow);
         QObject::connect(radioButton_2, SIGNAL(toggled(bool)), pushButton, SLOT(setDisabled(bool)));
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(3);
         tabWidget_2->setCurrentIndex(0);
 
 
@@ -690,6 +706,7 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(data), QApplication::translate("MainWindow", "Data", Q_NULLPTR));
         background->setText(QString());
         tabWidget->setTabText(tabWidget->indexOf(tab3), QApplication::translate("MainWindow", "Background", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(plots), QApplication::translate("MainWindow", "Plots", Q_NULLPTR));
     } // retranslateUi
 
 };

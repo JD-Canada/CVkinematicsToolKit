@@ -6,6 +6,10 @@
 // OpenCV
 #include <opencv2/opencv.hpp>
 
+//OpenCV - uncomment for Windows
+#include<opencv2/highgui/highgui.hpp>
+#include<opencv2/imgproc/imgproc.hpp>
+
 // Qt libs
 #include <QFileDialog>
 #include <QKeyEvent>
@@ -81,6 +85,10 @@ MainWindow::MainWindow(QWidget *parent) :
     // Set up event filters for user input (capture key presses and clicks)
     ui->jumpFrame->installEventFilter(this);
     ui->frame->installEventFilter(this);
+
+    //add example plot to Plots tab
+    setupQuadraticDemo(ui->customPlot);
+
 
     // Set mode
     mode_ui = Mode_NAVIGATE;
@@ -424,4 +432,26 @@ void MainWindow::on_Track_B_clicked()
         status_mode->setText(QString("Mode: NAVIGATE"));
         break;
     }
+/************************************************
+// Experimental functions for plotting
+************************************************/
+void MainWindow::setupQuadraticDemo(QCustomPlot *customPlot)
+{
+  //demoName = "Quadratic Demo";
+  // generate some data:
+  QVector<double> x(101), y(101); // initialize with entries 0..100
+  for (int i=0; i<101; ++i)
+  {
+    x[i] = i/50.0 - 1; // x goes from -1 to 1
+    y[i] = x[i]*x[i];  // let's plot a quadratic function
+  }
+  // create graph and assign data to it:
+  customPlot->addGraph();
+  customPlot->graph(0)->setData(x, y);
+  // give the axes some labels:
+  customPlot->xAxis->setLabel("x");
+  customPlot->yAxis->setLabel("y");
+  // set axes ranges, so we see all data:
+  customPlot->xAxis->setRange(-1, 1);
+  customPlot->yAxis->setRange(0, 1);
 }

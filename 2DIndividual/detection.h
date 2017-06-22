@@ -1,11 +1,16 @@
 #ifndef DETECTION_H
 #define DETECTION_H
 
+//Qt
 #include <QtCore>
 #include "mainwindow.h"
 #include <opencv2/opencv.hpp>
 #include <QPixmap>
 #include <mainwindow.h>
+
+//uncomment for Windows
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 //Must inherit QObject class so this can be used in QThreads
 class Detection : public QObject

@@ -1,10 +1,19 @@
+//Local resources
 #include "detection.h"
 #include "mainwindow.h"
+
+//Opencv
 #include <opencv2/opencv.hpp>
+
+//Qt
 #include <QPixmap>
 #include <QLabel>
 #include <string>
 #include <QEventLoop>
+
+//uncomment for Windows
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 Detection::Detection()
 {

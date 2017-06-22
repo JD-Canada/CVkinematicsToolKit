@@ -1,13 +1,26 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+//Qt
 #include <QMainWindow>
 #include <QPixmap>
 #include <QLabel>
 #include <QThread>
 
+//common to both Ubuntu and Windows
 #include <opencv2/opencv.hpp>
+
+//uncomment for Windows
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include "opencv2/videoio.hpp"
+
+//plotting
+#include "qcustomplot.h"
+
+//standard libs
 #include <string>
+
 
 namespace Ui {
 class MainWindow;
@@ -27,6 +40,7 @@ public:
 
     // Showframe on UI
     void loadFrame(bool load = true);
+    void setupQuadraticDemo(QCustomPlot *customPlot);
 
 protected:
     // Capture user input (Override default action)
