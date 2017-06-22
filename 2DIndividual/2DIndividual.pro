@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = 2DIndividual
 TEMPLATE = app
@@ -50,9 +50,11 @@ LIBS += -LC:\opencv-build\lib \
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    detection.cpp
+    detection.cpp \
+    qcustomplot.cpp
 
 HEADERS  += mainwindow.h \
-    detection.h
+    detection.h \
+    qcustomplot.h
 
 FORMS    += mainwindow.ui
