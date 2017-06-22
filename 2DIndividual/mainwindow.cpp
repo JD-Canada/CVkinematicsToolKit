@@ -432,6 +432,7 @@ void MainWindow::on_Track_B_clicked()
         status_mode->setText(QString("Mode: NAVIGATE"));
         break;
     }
+}
 /************************************************
 // Experimental functions for plotting
 ************************************************/
@@ -455,3 +456,4 @@ void MainWindow::setupQuadraticDemo(QCustomPlot *customPlot)
   customPlot->xAxis->setRange(-1, 1);
   customPlot->yAxis->setRange(0, 1);
 }
+
